@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require_relative "../lib/most_read_books"
+
+MostReadBooks::Scraper.new.scrape_page

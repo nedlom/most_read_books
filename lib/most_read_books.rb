@@ -1,6 +1,9 @@
-require "most_read_books/version"
+require "pry"
+require "open-uri"
+require "nokogiri"
 
 module MostReadBooks
   class Error < StandardError; end
-  # Your code goes here...
+  require "require_all"
+  require_rel "most_read_books"
 end
