@@ -11,6 +11,18 @@ class MostReadBooks::Scraper
     #reviews: .css(".minirating").text
   end
   
+  def general_info
+    get_page.css("tr").each do |b|
+      title = b.css("[itemprop='name']").text
+      author = b.css(".authorName").text
+      url = "https://www.goodreads.com/#{b.css(".bookTitle")[0]['href']}"
+      MostReadBooks::Book.new(title, author, url)
+    end
+  end
+  
+  def detailed_info
+  end
+  
   def scrape_page
     get_page.css("tr").each do |b|
       title = b.css("[itemprop='name']").text

@@ -1,6 +1,6 @@
 class MostReadBooks::Book
   
-  attr_accessor :title, :author, :summary
+  attr_accessor :title, :author, :url, :summary
   
   @@all = []
   
@@ -8,9 +8,10 @@ class MostReadBooks::Book
     @@all
   end
   
-  def initialize(title, author)
+  def initialize(title, author, url)
     @title = title
     @author = author
+    @url = url
     self.class.all << self
   end
   
