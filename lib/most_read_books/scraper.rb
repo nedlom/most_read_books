@@ -1,11 +1,21 @@
 class MostReadBooks::Scraper
   
-  def scrape_page
-    url = "https://learn.co/tracks/full-stack-web-development-v8/module-1-welcome/section-1-welcome/welcome-to-learn"
-    html = Nokogiri::HTML(open(url))
-    binding.pry
+  def get_page
+    url = "https://www.goodreads.com/book/most_read"
+    Nokogiri::HTML(open(url))
+    # nodeset of books: Nokogiri::HTML(open(url)).css("tr")
+    # title: .css("[itemprop='name']").text
+    #author: .css(".authorName").text
+    #url: .css(".bookTitle")[0]['href']
+    #people read: html.css(".statistic").text
+    #reviews: .css(".minirating").text
   end
   
-  def make_book
+  def scrape_page
+    get_page.css("tr").each do |b|
+      title = b.css("[itemprop='name']").text
+      author = b.css(".authorName").text
+      MostReadBooks::Book.new(title, author)
+    end
   end
 end
