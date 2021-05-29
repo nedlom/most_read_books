@@ -1,33 +1,38 @@
 class MostReadBooks::Scraper
   
-  def get_page
-    url = "https://www.goodreads.com/book/most_read"
-    Nokogiri::HTML(open(url))
-    # nodeset of books: Nokogiri::HTML(open(url)).css("tr")
-    # title: .css("[itemprop='name']").text
-    #author: .css(".authorName").text
-    #url: .css(".bookTitle")[0]['href']
-    #people read: html.css(".statistic").text
-    #reviews: .css(".minirating").text
+  def self.tester
+    url = "https://www.goodreads.com/book/show/55542167-beneath-devil-s-bridge"
+    x = Nokogiri::HTML(open(url).read)
+    #gets the desc formatted as is on goodreads page
+    y = x.css("#description span")[1]
+    z = y.children.map.each do |n|
+      n.text
+      end
+    binding.pry
   end
   
+  
   def general_info
-    get_page.css("tr").each do |b|
+    url = "https://www.goodreads.com/book/most_read"
+    page = Nokogiri::HTML(open(url))
+    page.css("tr").each do |b|
       title = b.css("[itemprop='name']").text
       author = b.css(".authorName").text
       url = "https://www.goodreads.com/#{b.css(".bookTitle")[0]['href']}"
-      MostReadBooks::Book.new(title, author, url)
+      ratings = b.css(".minirating").text.strip
+      readers = b.css(".greyText.statistic").text
+      MostReadBooks::Book.new(title, author, url, ratings, readers)
     end
   end
   
-  def detailed_info
-  end
-  
-  def scrape_page
-    get_page.css("tr").each do |b|
-      title = b.css("[itemprop='name']").text
-      author = b.css(".authorName").text
-      MostReadBooks::Book.new(title, author)
-    end
-  end
+  # def details
+  #   MostReadBooks::Book.all.each do |b|
+  #     # change this url to b.url
+  #     page = Nokogiri::HTML(open(b.url).read)
+  #     detail = page.css("#description span")[1].text
+  #     format_num_of_pages = page.css("#details .row")[0].text
+  #     publisher = page.css("#details .row")[1].text
+  #     about_author = page.css(".bookAuthorProfile span")[0].text
+  #   end
+  # end
 end
