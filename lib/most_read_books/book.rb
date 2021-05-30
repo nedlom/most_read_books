@@ -1,6 +1,6 @@
 class MostReadBooks::Book
   
-  attr_accessor :title, :author, :url, :ratings, :readers, :summary, :pages, :publisher, :about_author
+  attr_accessor :title, :author, :url, :ratings, :readers, :summary, :format_and_pages, :publisher, :about_author
   
   @@all = []
   
@@ -23,29 +23,54 @@ class MostReadBooks::Book
   
   def summary
     description_nodes = doc.css("#description span")[1]
-    paragraphs = description_nodes.children.map do |p|
-      p.text if p.name != "br"
+    # binding.pry
+    paragraphs = description_nodes.children.map.with_index do |p, i|
+      #binding.pry
+      p.text.strip if p.name != "br"
+      # if p.name == "i" && i > 0
+      #   " " + p.text + " "
+      # elsif p.name != "br"
+      #   p.text
+      # end
+      # if p.name == "i" && i > 0
+      #   " " + p.text + " "
+      # end
     end
+    paragraphs.delete(" ")
+    paragraphs.delete("")
     @summary = paragraphs.compact
+  end
+  
+  def format_and_pages
+    @pages = doc.css("#details .row")[0].text 
+  end
+  
+  def publisher
+    @publisher = doc.css("#details .row")[1].text
+  end
+  
+  #could be nil or "\""
+  def about_author
+    @about_author = doc.css(".bookAuthorProfile span")[0].text
+  end
+  
+  def doc
+    Nokogiri::HTML(open(self.url).read)
+  end
+  
+  
     #binding.pry
     # to print:
     # a.summary.each do |b|
 # [9] pry(#<MostReadBooks::CLI>)*   puts  b.scan(/(.{1,75})(?:\s|$)/m)
 # [9] pry(#<MostReadBooks::CLI>)*   puts ""
 # [9] pry(#<MostReadBooks::CLI>)* end
-  end
-  
-  def info
-    #@summary = doc.css("#description span")[1].text
-    @pages = doc.css("#details .row")[0].text #gives book format and num of pages
-    @publisher = doc.css("#details .row")[1].text
-    @about_author = doc.css(".bookAuthorProfile span")[0].text
-  end
- 
-  def doc
-    Nokogiri::HTML(open(self.url).read)
-  end
-  
+  # def info
+  #   @summary = doc.css("#description span")[1].text
+  #   @pages = doc.css("#details .row")[0].text #gives book format and num of pages
+  #   @publisher = doc.css("#details .row")[1].text
+  #   @about_author = doc.css(".bookAuthorProfile span")[0].text
+  # end
    # def details
   #   MostReadBooks::Book.all.each do |b|
   #     # change this url to b.url

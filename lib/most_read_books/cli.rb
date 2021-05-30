@@ -11,38 +11,14 @@ class MostReadBooks::CLI
       puts "#{i}. #{b.title} by #{b.author}"
       puts ""
     end
-    
     print "Select number of book: "
     book_index = gets.strip.to_i
     book = MostReadBooks::Book.find_by_index(book_index)
     puts ""
     display_book(book)
-    #self.class.tester(book)
   end
-  
-  #########
-  
-  def self.t
-    MostReadBooks::Scraper.new.general_info
-    self.pick
-  end
-  
-  def self.tester(book)
-    book.info
-    puts book.summary
-    self.pick
-  end
-  
-  def self.pick
-    puts "select a book"
-    book_index = gets.strip.to_i
-    book = MostReadBooks::Book.find_by_index(book_index)
-    self.tester(book)
-  end 
-  ################
   
   def display_book(book)
-    book.info
     puts "#{"-" * 14}#{book.title}#{"-" * 14}"
     puts "Author: #{book.author}"
     puts "Ratings: #{book.ratings}"
@@ -50,13 +26,13 @@ class MostReadBooks::CLI
     puts ""
     puts "--Summary"
     book.summary.each do |p|
-      puts  p.scan(/(.{1,75})(?:\s|$)/m)
+      puts  format_paragraph(p)
       puts ""
       sleep(1)
     end
     puts ""
     puts "--About The Author"
-    puts book.about_author.scan(/(.{1,75})(?:\s|$)/m)
+    puts format_paragraph(book.about_author)
     puts ""
     puts "This book has been read by #{book.readers.strip.split("\n")[0]} people this week."
     puts ""
@@ -70,6 +46,9 @@ class MostReadBooks::CLI
     puts ""
     display_book(book)
   end
-    
   
+  def format_paragraph(p)
+    p.scan(/(.{1,75})(?:\s|$)/m)
+  end
+
 end

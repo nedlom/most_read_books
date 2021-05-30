@@ -1,22 +1,9 @@
 class MostReadBooks::Scraper
   
-  def self.tester
-    url = "https://www.goodreads.com/book/show/55542167-beneath-devil-s-bridge"
-    x = Nokogiri::HTML(open(url).read)
-    #gets the desc formatted as is on goodreads page
-    y = x.css("#description span")[1]
-    z = y.children.map.each do |n|
-      n.text
-      end
-    binding.pry
-  end
-  
-  
   def general_info
     url = "https://www.goodreads.com/book/most_read"
     page = Nokogiri::HTML(open(url))
     page.css("tr").each do |b|
-      #binding.pry
       title = b.css("[itemprop='name']")[0].text
       author = b.css("[itemprop='name']")[1].text
       url = "https://www.goodreads.com/#{b.css(".bookTitle")[0]['href']}"
