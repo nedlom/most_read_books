@@ -24,12 +24,12 @@ class MostReadBooks::Book
   def summary
     description_nodes = doc.css("#description span")[1]
     paragraphs = description_nodes.children.map do |p|
-      p.text if node.name != "br"
+      p.text if p.name != "br"
     end
     @summary = paragraphs.compact
-    
-    to print:
-    a.summary.each do |b|
+    #binding.pry
+    # to print:
+    # a.summary.each do |b|
 # [9] pry(#<MostReadBooks::CLI>)*   puts  b.scan(/(.{1,75})(?:\s|$)/m)
 # [9] pry(#<MostReadBooks::CLI>)*   puts ""
 # [9] pry(#<MostReadBooks::CLI>)* end
