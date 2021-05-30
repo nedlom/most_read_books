@@ -15,6 +15,7 @@ class MostReadBooks::CLI
     print "Select number of book: "
     book_index = gets.strip.to_i
     book = MostReadBooks::Book.find_by_index(book_index)
+    puts ""
     display_book(book)
     #self.class.tester(book)
   end
@@ -66,6 +67,7 @@ class MostReadBooks::CLI
     print "Select number of book: "
     book_index = gets.strip.to_i
     book = MostReadBooks::Book.find_by_index(book_index)
+    puts ""
     display_book(book)
   end
     
