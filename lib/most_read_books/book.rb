@@ -21,8 +21,22 @@ class MostReadBooks::Book
     self.all[index - 1]
   end
   
+  def summary
+    description_nodes = doc.css("#description span")[1]
+    paragraphs = description_nodes.children.map do |p|
+      p.text if node.name != "br"
+    end
+    @summary = paragraphs.compact
+    
+    to print:
+    a.summary.each do |b|
+# [9] pry(#<MostReadBooks::CLI>)*   puts  b.scan(/(.{1,75})(?:\s|$)/m)
+# [9] pry(#<MostReadBooks::CLI>)*   puts ""
+# [9] pry(#<MostReadBooks::CLI>)* end
+  end
+  
   def info
-    @summary = doc.css("#description span")[1].text
+    #@summary = doc.css("#description span")[1].text
     @pages = doc.css("#details .row")[0].text #gives book format and num of pages
     @publisher = doc.css("#details .row")[1].text
     @about_author = doc.css(".bookAuthorProfile span")[0].text

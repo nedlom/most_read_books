@@ -3,6 +3,8 @@ class MostReadBooks::CLI
   def start
     puts "Welcome to Most Read Books"
     MostReadBooks::Scraper.new.general_info
+    a = MostReadBooks::Book.all[0]
+    binding.pry
     # display_books
   end
   
