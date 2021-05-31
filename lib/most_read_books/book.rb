@@ -26,10 +26,34 @@ class MostReadBooks::Book
   def summary
     element = doc.css("#description span")[1]
     node_set = element.children
-    paragraphs = node_set.map do |element|
-      element.text.strip
+    paragraphs = node_set.map do |n|
+      if n.name == "text"
+        n.text
+      elsif n.name == "i"
+        " #{n.text} "
+      else
+        "\n"
+      end
     end
-    paragraphs.delete("")
+    # binding.pry
+    #paragraphs = node_set.map{|p| p.text.strip}
+    binding.pry
+    # paragraphs = paragraphs.select do |element|
+    #   element.length > 1
+    # end
+    # index = paragraphs.find_index do |p|
+    #   p[p.length - 1] == ","
+    # end
+    # paragraphs[index - 1] = "#{paragraphs[index - 1]} #{paragraphs[index]} " 
+    # paragraphs[index] = ""
+    # paragraphs.delete("")
+    # paragraphs.delete_at(0) if !paragraphs[0].match?(/[a-zA-Z]/)
+    # paragraphs.delete_at(0) if paragraphs[0].include?("Alternat")
+    
+    # index = paragraphs.find_index do |p|
+    #   p[0] == ", "
+    # end
+    # binding.pry
     @summary = paragraphs
   end
     # binding.pry

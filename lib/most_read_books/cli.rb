@@ -28,6 +28,7 @@ class MostReadBooks::CLI
   end
   
   def display_book(book)
+    puts "---Summary"
     book.summary.each do |p|
       puts format_paragraph(p)
       puts ""
