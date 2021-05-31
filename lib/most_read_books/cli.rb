@@ -3,7 +3,8 @@ class MostReadBooks::CLI
   def start
     puts "Welcome to Most Read Books"
     MostReadBooks::Scraper.new.general_info
-    list_books
+    #list_books
+    select_book
   end
   
   def list_books
@@ -18,34 +19,39 @@ class MostReadBooks::CLI
     display_book(book)
   end
   
-  def display_book(book)
-    puts "#{"-" * 14}#{book.title}#{"-" * 14}"
-    puts "Author: #{book.author}"
-    puts "Ratings: #{book.ratings}"
-    sleep(1)
-    puts ""
-    puts "--Summary"
-    book.summary.each do |p|
-      puts  format_paragraph(p)
-      puts ""
-      sleep(1)
-    end
-    puts ""
-    puts "--About The Author"
-    puts format_paragraph(book.about_author)
-    puts ""
-    puts "This book has been read by #{book.readers.strip.split("\n")[0]} people this week."
-    puts ""
-    select_another
-  end
-  
-  def select_another
+  def select_book
     print "Select number of book: "
     book_index = gets.strip.to_i
     book = MostReadBooks::Book.find_by_index(book_index)
     puts ""
     display_book(book)
   end
+  
+  def display_book(book)
+    book.summary.each do |p|
+      puts format_paragraph(p)
+      puts ""
+    end
+    select_book
+  end
+  
+  # def display_book(book)
+  #   puts "Title: #{book.title}"
+  #   puts "Author: #{book.author}"
+  #   puts "Ratings: #{book.ratings}"
+  #   puts ""
+  #   puts "---Summary"
+  #   book.summary.each do |p|
+  #     puts  format_paragraph(p)
+  #     puts ""
+  #   end
+  #   puts "---About The Author"
+  #   puts format_paragraph(book.about_author)
+  #   puts ""
+  #   puts "This book has been read by #{book.readers.strip.split("\n")[0]} people this week."
+  #   puts ""
+  #   select_another
+  # end
   
   def format_paragraph(p)
     p.scan(/(.{1,75})(?:\s|$)/m)

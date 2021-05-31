@@ -21,12 +21,31 @@ class MostReadBooks::Book
     self.all[index - 1]
   end
   
+  
+  # problem summary: 2, 3, 6, 8, 9, 10
   def summary
-    description_nodes = doc.css("#description span")[1]
+    element = doc.css("#description span")[1]
+    node_set = element.children
+    paragraphs = node_set.map do |element|
+      element.text.strip
+    end
+    paragraphs.delete("")
+    @summary = paragraphs
+  end
     # binding.pry
-    paragraphs = description_nodes.children.map.with_index do |p, i|
+    # noko_element = doc.css("#description span")[1]
+    # nodeset = noko_element.children
+    # paragraph = nodeset.map do |element|
+    #   element.text.strip
+    # end
+    # paragraph = paragraph.delete_if do |p|
+    #   p == "" || p == " "
+    # end
+    #binding.pry
+    # binding.pry
+    #paragraphs = description_nodes.children.map.with_index do |p, i|
       #binding.pry
-      p.text.strip if p.name != "br"
+     # p.text.strip if p.name != "br"
       # if p.name == "i" && i > 0
       #   " " + p.text + " "
       # elsif p.name != "br"
@@ -35,11 +54,11 @@ class MostReadBooks::Book
       # if p.name == "i" && i > 0
       #   " " + p.text + " "
       # end
-    end
-    paragraphs.delete(" ")
-    paragraphs.delete("")
-    @summary = paragraphs.compact
-  end
+    # end
+    # paragraphs.delete(" ")
+    # paragraphs.delete("")
+    # @summary = paragraphs.compact
+  # end
   
   def format_and_pages
     @pages = doc.css("#details .row")[0].text 
@@ -50,8 +69,12 @@ class MostReadBooks::Book
   end
   
   #could be nil or "\""
+  # could be paragraphs
   def about_author
-    @about_author = doc.css(".bookAuthorProfile span")[0].text
+    binding.pry
+    # @about_author = doc.css(".bookAuthorProfile span")[0].text
+    about = doc.css(".bookAuthorProfile span")
+    binding.pry
   end
   
   def doc
