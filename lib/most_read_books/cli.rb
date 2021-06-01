@@ -89,6 +89,7 @@ class MostReadBooks::CLI
     puts "---Summary"
     format_paragraphs(book.summary)
     t_function
+    self.class.face
     print "Hit enter key for author info: "
     gets
     puts ""
@@ -138,6 +139,18 @@ class MostReadBooks::CLI
     puts ""
     exit
   end
+  
+  def self.face
+    puts "O O\n < \n"
+    while true
+      print " - "
+      sleep(0.3)
+      print "\b\b0"
+      sleep(0.3)
+      print "\r"
+    end
+  end
+  
   
   # def display_book(book)
   #   puts "Title: #{book.title}"
