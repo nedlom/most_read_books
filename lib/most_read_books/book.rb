@@ -40,16 +40,22 @@ class MostReadBooks::Book
   # could be paragraphs
   def about_author
     element = doc.css(".bookAuthorProfile span")[1]
-    node_set = element.children
-    paragraphs = node_set.map do |n|
-      if n.name == "br"
-        n.name
-      else
-        n.text
+    if !element.nil?
+      node_set = element.children
+      paragraphs = node_set.map do |n|
+        if n.name == "br"
+          n.name
+        else
+          n.text
+        end
       end
+      paragraphs.delete(" ")
+      paragraphs = paragraphs.join.split("brbr")
+      paragraphs.delete_if {|p| p == "" || p == " " || p == "br"}
+      @about_author = paragraphs
+    else
+      @about_author = ["There is no info about this author."]
     end
-    paragraphs.delete_if {|p| p == "" || p == " "}
-    @about_author = paragraphs.join.split("brbr")
   end
   
   
