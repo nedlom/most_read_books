@@ -36,10 +36,11 @@ class MostReadBooks::CLI
     puts ""
     MostReadBooks::Book.all[0..input].each.with_index(1) do |b, i|
       puts "#{i}. #{b.title} by #{b.author}"
-      puts "#{" "*i.to_s.length}  Read by #{b.readers} people this week."
+      # puts "#{" "*i.to_s.length}  Read by: #{b.readers}"
       puts ""
       sleep(0.5)
     end
+    select_book
     # print "Select number of book: "
     # book_index = gets.strip.to_i
     # book = MostReadBooks::Book.find_by_index(book_index)
@@ -48,7 +49,7 @@ class MostReadBooks::CLI
   end
   
   def select_book
-    print "Select number of book: "
+    print "Select book number for more detail: "
     book_index = gets.strip.to_i
     book = MostReadBooks::Book.find_by_index(book_index)
     puts ""
@@ -56,6 +57,13 @@ class MostReadBooks::CLI
   end
   
   def display_book(book)
+    place = MostReadBooks::Book.all.find_index(book) + 1
+    puts "You have chosen the number #{place} most read book this week."
+    puts "Title: #{book.title}"
+    puts "Author: #{book.author}"
+    puts "It's been read by #{book.readers} people this week."
+    puts ""
+    sleep(1.5)
     puts "---Summary"
     format_paragraphs(book.summary)
     puts "---About Author"
