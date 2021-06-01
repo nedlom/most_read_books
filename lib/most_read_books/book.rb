@@ -21,7 +21,6 @@ class MostReadBooks::Book
     self.all[index - 1]
   end
   
-  
   # problem summary: 2, 3, 6, 8, 9, 10
   def summary
     element = doc.css("#description span")[1]
@@ -34,13 +33,24 @@ class MostReadBooks::Book
       end
     end
     @summary = paragraphs.join.split("brbr")
+  end
+  
+  #could be nil or "\""
+  # could be paragraphs
+  def about_author
+    # @about_author = doc.css(".bookAuthorProfile span")[0].text
+    about = doc.css(".bookAuthorProfile span")
+    binding.pry
+  end
+  
+  
     #binding.pry
       # elsif n.name == "i"
       #   " #{n.text} "
       # else
       #   "\n"
       # end
-    end
+    # end
     # binding.pry
     #paragraphs = node_set.map{|p| p.text.strip}
     # binding.pry
@@ -98,14 +108,6 @@ class MostReadBooks::Book
     @publisher = doc.css("#details .row")[1].text
   end
   
-  #could be nil or "\""
-  # could be paragraphs
-  def about_author
-    binding.pry
-    # @about_author = doc.css(".bookAuthorProfile span")[0].text
-    about = doc.css(".bookAuthorProfile span")
-    binding.pry
-  end
   
   def doc
     Nokogiri::HTML(open(self.url).read)
