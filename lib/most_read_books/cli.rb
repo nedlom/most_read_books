@@ -89,7 +89,7 @@ class MostReadBooks::CLI
     puts "---Summary"
     format_paragraphs(book.summary)
     t_function
-    self.class.face
+    # self.class.face
     print "Hit enter key for author info: "
     gets
     puts ""
@@ -121,7 +121,7 @@ class MostReadBooks::CLI
   
   def t_function
     puts <<-T
-
+    ***TRACIE WARNING!!!***
     IF YOU'RE SEEING THIS IT MEANS YOU HIT THE ENTER KEY FOR MORE BOOK 
     INFORMATION. THE INFORMATION IS PRINTED TO THE SCREEN INSTANTANEOUSLY.
     YOU ARE AT THE BOTTOM OF THE OUTPUT. YOU NEED TO PUT THE MOUSE CURSOR 
@@ -130,6 +130,7 @@ class MostReadBooks::CLI
     INFORMATION YOU REQUESTED STARTS. 
     
     T
+    self.class.face
   end
   
   def quit
@@ -149,7 +150,7 @@ class MostReadBooks::CLI
       sleep(0.5)
       print "\b\b\b\b\b\b\b\b\b\b          \r"
     end
-    print "\t o - You've been warned!"
+    print "\t o - You done been warned."
     puts ""
     puts ""
   end
