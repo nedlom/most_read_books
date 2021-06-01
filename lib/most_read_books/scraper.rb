@@ -2,7 +2,7 @@ class MostReadBooks::Scraper
   
   def general_info
     url = "https://www.goodreads.com/book/most_read"
-    page = Nokogiri::HTML(open(url))
+    page = Nokogiri::HTML(open(url).read)
     page.css("tr").each do |b|
       title = b.css("[itemprop='name']")[0].text
       author = b.css("[itemprop='name']")[1].text

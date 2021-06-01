@@ -9,23 +9,42 @@ class MostReadBooks::CLI
     puts <<~WELCOME
       Welcome! Most Read Books is an application that provides details on the 50 
       most read books in the United States this week (according to Goodreads).
+      
     WELCOME
     
-    #MostReadBooks::Scraper.new.general_info
-    #list_books
-    #select_book
+    MostReadBooks::Scraper.new.general_info
+    
+    input = how_many
+    puts ""
+    list_books(input - 1)
   end
   
-  def list_books
-    MostReadBooks::Book.all.each.with_index(1) do |b, i|
-      puts "#{i}. #{b.title} by #{b.author}"
-      puts ""
-    end
-    print "Select number of book: "
-    book_index = gets.strip.to_i
-    book = MostReadBooks::Book.find_by_index(book_index)
+  def how_many
+    puts "Would you like to see: "
+    puts "1. Top 10"
+    puts "2. Top 20"
+    puts "3. Top 30"
+    puts "4. Top 40"
+    puts "5. See All"
+    print "Enter a number(1-5): "
+    gets.strip.to_i * 10
+  end
+  
+  def list_books(input)
+    puts "#{"-"*16}Top #{input + 1} Most Read Books This Week#{"-"*16}"
+    sleep(1)
     puts ""
-    display_book(book)
+    MostReadBooks::Book.all[0..input].each.with_index(1) do |b, i|
+      puts "#{i}. #{b.title} by #{b.author}"
+      puts "#{" "*i.to_s.length}  Read by #{b.readers} people this week."
+      puts ""
+      sleep(0.5)
+    end
+    # print "Select number of book: "
+    # book_index = gets.strip.to_i
+    # book = MostReadBooks::Book.find_by_index(book_index)
+    # puts ""
+    # display_book(book)
   end
   
   def select_book
