@@ -23,7 +23,7 @@ class MostReadBooks::CLI
   end
   
   def how_many
-    print "Would you like to see some books? "
+    print "Would you like to see some books? (JUST HIT ENTER): "
     input = gets.strip
     puts ""
     puts "Which ones: "
@@ -33,7 +33,13 @@ class MostReadBooks::CLI
     puts "4. Top 40"
     puts "5. See All"
     print "Enter a number(1-5): "
-    gets.strip.to_i * 10
+    x = gets.strip.to_i
+    if ![1,2,3,4,5].include?(x)
+      puts ""
+      how_many
+    else
+      x * 10
+    end
   end
   
   def list_books(input)
@@ -46,6 +52,7 @@ class MostReadBooks::CLI
       puts ""
       sleep(0.5)
     end
+    print "Select book number for more detail(0-#{input+1}): "
     select_book
     # print "Select number of book: "
     # book_index = gets.strip.to_i
@@ -55,7 +62,7 @@ class MostReadBooks::CLI
   end
   
   def select_book
-    print "Select book number for more detail: "
+    # print "Select book number for more detail: "
     book_index = gets.strip.to_i
     book = MostReadBooks::Book.find_by_index(book_index)
     puts ""
@@ -76,16 +83,18 @@ class MostReadBooks::CLI
       
     PICK
     
-    print "Hit any key for summary."
+    print "Hit enter key for summary: "
     gets
     puts ""
     puts "---Summary"
     format_paragraphs(book.summary)
-    print "Hit any key for author info."
+    t_function
+    print "Hit enter key for author info: "
     gets
     puts ""
     puts "---About Author"
     format_paragraphs(book.about_author)
+    t_function
     select_another
   end
   
@@ -107,7 +116,19 @@ class MostReadBooks::CLI
       puts ""
       list_books(input)
     end
+  end
+  
+  def t_function
+    puts <<-T
+    ***TRACIE ALERT!!!***
+    IF YOU'RE SEEING THIS IT MEANS YOU HIT THE ENTER KEY FOR MORE BOOK 
+    INFORMATION. THE INFORMATION IS PRINTED TO THE SCREEN INSTANTANEOUSLY.
+    YOU ARE AT THE BOTTOM OF THE OUTPUT. YOU NEED TO PUT THE MOUSE CURSOR 
+    IN THE BLACK BOX (TERMINAL) AT THE BOTTOM OF THE SCREEN, CLICK INTO IT 
+    THEN USE TWO FINGERS TO SCROLL DOWN ON THE MOUSE PAD TO SEE WHERE THE 
+    INFORMATION YOU REQUESTED STARTS. 
     
+    T
   end
   
   def quit
