@@ -52,7 +52,7 @@ class MostReadBooks::CLI
       puts ""
       sleep(0.5)
     end
-    print "Select book number for more detail(0-#{input+1}): "
+    print "Select book number for more detail(1-#{input+1}): "
     select_book
     # print "Select number of book: "
     # book_index = gets.strip.to_i
