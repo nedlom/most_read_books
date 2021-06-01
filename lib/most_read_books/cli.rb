@@ -1,14 +1,17 @@
 class MostReadBooks::CLI
   
   def start
-    puts "#{"-"*30}Most Read Books#{"-"*30}"
+    # puts "#{"-"*30}Most Read Books#{"-"*30}"
     # puts 'Welcome! Most Read Books is an application that'\
     #   ' provides details on the 50 most read books in the'\
     #   ' United States this week (according to Goodreads).'
       
     puts <<~WELCOME
-      Welcome! Most Read Books is an application that provides details on the 50 
-      most read books in the United States this week (according to Goodreads).
+    
+      #{"-"*30}Most Read Books#{"-"*30}
+      Hello. Welcome to Most Read Books. This is an application that provides 
+      details on the 50 most read books in the United States this week (according 
+      to Goodreads).
       
     WELCOME
     
@@ -20,7 +23,10 @@ class MostReadBooks::CLI
   end
   
   def how_many
-    puts "Would you like to see: "
+    print "Would you like to see some books? "
+    input = gets.strip
+    puts ""
+    puts "Which ones: "
     puts "1. Top 10"
     puts "2. Top 20"
     puts "3. Top 30"
@@ -57,18 +63,59 @@ class MostReadBooks::CLI
   end
   
   def display_book(book)
+    len1 = (75 - book.title.length) / 2
+    len2 = (75 - "by {book.author}".length) / 2
     place = MostReadBooks::Book.all.find_index(book) + 1
-    puts "You have chosen the number #{place} most read book this week."
-    puts "Title: #{book.title}"
-    puts "Author: #{book.author}"
-    puts "It's been read by #{book.readers} people this week."
+    puts "#{"-"*len1}#{book.title}#{"-"*len1}"
+    puts "#{" "*len2}by #{book.author}#{" "*len2}"
+    
+    puts <<~PICK 
+    
+      Excellent selection! You've chosen the number #{place} most read book this week.
+      It's been read by #{book.readers} people this week alone!
+      
+    PICK
+    
+    print "Hit any key for summary."
+    gets
     puts ""
-    sleep(1.5)
     puts "---Summary"
     format_paragraphs(book.summary)
+    print "Hit any key for author info."
+    gets
+    puts ""
     puts "---About Author"
     format_paragraphs(book.about_author)
-    select_book
+    select_another
+  end
+  
+  def select_another
+    print "Would you like to see some books? Type q and hit enter to quit: "
+    input = gets.strip
+    if input == "q"
+      quit
+    else
+      puts ""
+      puts "Which ones: "
+      puts "1. Top 10"
+      puts "2. Top 20"
+      puts "3. Top 30"
+      puts "4. Top 40"
+      puts "5. See All"
+      print "Enter a number(1-5): "
+      input = gets.strip.to_i * 10 - 1
+      puts ""
+      list_books(input)
+    end
+    
+  end
+  
+  def quit
+    puts ""
+    puts "Buh Bye"
+    sleep(1)
+    puts ""
+    exit
   end
   
   # def display_book(book)
