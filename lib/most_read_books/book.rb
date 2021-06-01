@@ -27,17 +27,23 @@ class MostReadBooks::Book
     element = doc.css("#description span")[1]
     node_set = element.children
     paragraphs = node_set.map do |n|
-      if n.name == "text"
-        n.text
-      elsif n.name == "i"
-        " #{n.text} "
-      else
+      if n.name == "br"
         "\n"
+      else
+        n.text
       end
+    end
+    binding.pry
+    @summary = paragraphs.join
+      # elsif n.name == "i"
+      #   " #{n.text} "
+      # else
+      #   "\n"
+      # end
     end
     # binding.pry
     #paragraphs = node_set.map{|p| p.text.strip}
-    binding.pry
+    # binding.pry
     # paragraphs = paragraphs.select do |element|
     #   element.length > 1
     # end
@@ -54,8 +60,8 @@ class MostReadBooks::Book
     #   p[0] == ", "
     # end
     # binding.pry
-    @summary = paragraphs
-  end
+  #   @summary = paragraphs
+  # end
     # binding.pry
     # noko_element = doc.css("#description span")[1]
     # nodeset = noko_element.children
