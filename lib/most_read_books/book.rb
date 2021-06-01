@@ -34,6 +34,7 @@ class MostReadBooks::Book
     end
     paragraphs.delete(" ")
     @summary = paragraphs.join.split("brbr")
+    # binding.pry
   end
   
   #could be nil or "\""
@@ -56,6 +57,19 @@ class MostReadBooks::Book
     else
       @about_author = ["There is no info about this author."]
     end
+  end
+  
+  def format_and_pages
+    @pages = doc.css("#details .row")[0].text 
+  end
+  
+  def publisher
+    @publisher = doc.css("#details .row")[1].text
+  end
+  
+  
+  def doc
+    Nokogiri::HTML(open(self.url).read)
   end
   
   
@@ -115,18 +129,7 @@ class MostReadBooks::Book
     # @summary = paragraphs.compact
   # end
   
-  def format_and_pages
-    @pages = doc.css("#details .row")[0].text 
-  end
-  
-  def publisher
-    @publisher = doc.css("#details .row")[1].text
-  end
-  
-  
-  def doc
-    Nokogiri::HTML(open(self.url).read)
-  end
+
   
   
     #binding.pry
