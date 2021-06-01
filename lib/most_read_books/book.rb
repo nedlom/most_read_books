@@ -32,15 +32,24 @@ class MostReadBooks::Book
         n.text
       end
     end
+    paragraphs.delete(" ")
     @summary = paragraphs.join.split("brbr")
   end
   
   #could be nil or "\""
   # could be paragraphs
   def about_author
-    # @about_author = doc.css(".bookAuthorProfile span")[0].text
-    about = doc.css(".bookAuthorProfile span")
-    binding.pry
+    element = doc.css(".bookAuthorProfile span")[1]
+    node_set = element.children
+    paragraphs = node_set.map do |n|
+      if n.name == "br"
+        n.name
+      else
+        n.text
+      end
+    end
+    paragraphs.delete_if {|p| p == "" || p == " "}
+    @about_author = paragraphs.join.split("brbr")
   end
   
   

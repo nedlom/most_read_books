@@ -24,8 +24,18 @@ class MostReadBooks::CLI
     book_index = gets.strip.to_i
     book = MostReadBooks::Book.find_by_index(book_index)
     puts ""
-    display_book(book)
+    display_author(book)
   end
+  
+  def display_author(book)
+    puts "---About Author"
+    book.about_author.each do |p|
+      puts format_paragraph(p)
+      puts ""
+    end
+    select_book
+  end
+  
   
   def display_book(book)
     puts "---Summary"
