@@ -1,10 +1,13 @@
 class MostReadBooks::CLI
   
   def start
-    puts "Welcome to Most Read Books"
+    puts "#{"-"*30}Most Read Books#{"-"*30}"
+    puts 'Welcome! Most Read Books is an application that'\
+      ' provides details on the 50 most read books in the'\
+      ' United States this week (according to Goodreads).'
     MostReadBooks::Scraper.new.general_info
     #list_books
-    select_book
+    #select_book
   end
   
   def list_books
