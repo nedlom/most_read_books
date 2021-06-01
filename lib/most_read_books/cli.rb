@@ -121,7 +121,7 @@ class MostReadBooks::CLI
   
   def t_function
     puts <<-T
-    ***TRACIE ALERT!!!***
+
     IF YOU'RE SEEING THIS IT MEANS YOU HIT THE ENTER KEY FOR MORE BOOK 
     INFORMATION. THE INFORMATION IS PRINTED TO THE SCREEN INSTANTANEOUSLY.
     YOU ARE AT THE BOTTOM OF THE OUTPUT. YOU NEED TO PUT THE MOUSE CURSOR 
@@ -141,14 +141,15 @@ class MostReadBooks::CLI
   end
   
   def self.face
-    puts "O O\n < \n"
+    puts "\tO O\n\t < \n"
     while true
-      print " - "
+      print "\t - "
       sleep(0.3)
       print "\b\b0"
       sleep(0.3)
       print "\r"
     end
+    print "- You've been warned!"
   end
   
   
