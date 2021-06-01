@@ -28,13 +28,13 @@ class MostReadBooks::Book
     node_set = element.children
     paragraphs = node_set.map do |n|
       if n.name == "br"
-        "\n"
+        n.name
       else
         n.text
       end
     end
-    binding.pry
-    @summary = paragraphs.join
+    @summary = paragraphs.join.split("brbr")
+    #binding.pry
       # elsif n.name == "i"
       #   " #{n.text} "
       # else
