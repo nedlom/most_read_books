@@ -142,14 +142,16 @@ class MostReadBooks::CLI
   
   def self.face
     puts "\tO O\n\t < \n"
-    while true
+    15.times do
       print "\t - "
-      sleep(0.3)
-      print "\b\b0"
-      sleep(0.3)
-      print "\r"
+      sleep(0.5)
+      print "\b\b0 - WARNING!"
+      sleep(0.5)
+      print "\b\b\b\b\b\b\b\b\b\b          \r"
     end
-    print "- You've been warned!"
+    print "\t o - You've been warned!"
+    puts ""
+    puts ""
   end
   
   
