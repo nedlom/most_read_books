@@ -1,6 +1,8 @@
 class MostReadBooks::CLI
   
   def welcome
+    MostReadBooks::Scraper.new.general_info
+    MostReadBooks::Book.all[0].format_and_pages
     puts <<~WELCOME
     
       #{"-"*30}Most Read Books#{"-"*30}
@@ -8,7 +10,7 @@ class MostReadBooks::CLI
       read books in the United States this week (according to Goodreads). 
     
     WELCOME
-    MostReadBooks::Scraper.new.general_info
+    #MostReadBooks::Scraper.new.general_info
     select_books
   end
   
@@ -45,7 +47,6 @@ class MostReadBooks::CLI
   end
   
   def display_book(book)
-    binding.pry
     len1 = (75 - book.title.length) / 2
     len2 = (75 - "by {book.author}".length) / 2
     place = MostReadBooks::Book.all.find_index(book) + 1
