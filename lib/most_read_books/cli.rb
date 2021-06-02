@@ -1,16 +1,24 @@
 class MostReadBooks::CLI
   
   def welcome
-    puts <<~WELCOME
-    
-      #{format_headers("Most Read Books", "-")}
-      Welcome to Most Read Books. This application provides details on the 50 most 
-      read books in the United States this week (according to Goodreads). 
-    
-    WELCOME
     MostReadBooks::Scraper.new.scrape_books
-    select_books
+    while true
+    input = gets.strip.to_i
+    MostReadBooks::Book.all[input].summary
   end
+  end
+  
+  # def welcome
+  #   puts <<~WELCOME
+    
+  #     #{format_headers("Most Read Books", "-")}
+  #     Welcome to Most Read Books. This application provides details on the 50 most 
+  #     read books in the United States this week (according to Goodreads). 
+    
+  #   WELCOME
+  #   MostReadBooks::Scraper.new.scrape_books
+  #   select_books
+  # end
   
   def select_books
     print "How many books would you like to see(1-50)? "
