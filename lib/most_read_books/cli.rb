@@ -1,17 +1,21 @@
 class MostReadBooks::CLI
   
   def welcome
+     MostReadBooks::Scraper.new.general_info
+     while true
+     input = gets.strip.to_i
+     format_paragraphs(MostReadBooks::Book.all[input].summary1)
+     MostReadBooks::Book.all[input].summary2
+   end
+    # puts <<~WELCOME
+    
+    #   #{"-"*30}Most Read Books#{"-"*30}
+    #   Welcome to Most Read Books. This application provides details on the 50 most 
+    #   read books in the United States this week (according to Goodreads). 
+    
+    # WELCOME
     # MostReadBooks::Scraper.new.general_info
-    # MostReadBooks::Book.all[0].format_and_pages
-    puts <<~WELCOME
-    
-      #{"-"*30}Most Read Books#{"-"*30}
-      Welcome to Most Read Books. This application provides details on the 50 most 
-      read books in the United States this week (according to Goodreads). 
-    
-    WELCOME
-    MostReadBooks::Scraper.new.general_info
-    select_books
+    # select_books
   end
   
   def select_books

@@ -22,7 +22,7 @@ class MostReadBooks::Book
   end
   
   # problem summary: 2, 3, 6, 8, 9, 10
-  def summary
+  def summary1
     element = doc.css("#description span")[1]
     node_set = element.children
     paragraphs = node_set.map do |n|
@@ -33,8 +33,17 @@ class MostReadBooks::Book
       end
     end
     paragraphs.delete(" ")
-    @summary = paragraphs.join.split("brbr")
-    # binding.pry
+    paragraphs.join.split("brbr")
+  end
+  
+  def summary2
+    element = doc.css("#description span")[1]
+    node_set = element.children
+    paragraphs = node_set.map do |n|
+      n.text
+    end
+    paragraphs.delete("")
+    paragraphs
   end
   
   #could be nil or "\""
