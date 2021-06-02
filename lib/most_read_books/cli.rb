@@ -1,25 +1,32 @@
 class MostReadBooks::CLI
   
   def start
-    # puts "#{"-"*30}Most Read Books#{"-"*30}"
-    # puts 'Welcome! Most Read Books is an application that'\
-    #   ' provides details on the 50 most read books in the'\
-    #   ' United States this week (according to Goodreads).'
-      
     puts <<~WELCOME
     
       #{"-"*30}Most Read Books#{"-"*30}
-      Hello. Welcome to Most Read Books. This is an application that provides 
-      details on the 50 most read books in the United States this week (according 
-      to Goodreads).
+      Welcome to Most Read Books. This application provides details on the 50 most 
+      read books in the United States this week (according to Goodreads).
       
     WELCOME
-    
     MostReadBooks::Scraper.new.general_info
-    
-    input = how_many
-    puts ""
-    list_books(input - 1)
+    select
+    # input = how_many
+    # puts ""
+    # list_books(input - 1)
+  end
+  
+  def select
+    print "Select the number of books you would like to see."
+    print "Enter a number 1-50 or exit to quit: "
+    input = gets.strip
+    if input.to_i.between?(1, 50)
+      list_books(input.to_i - 1)
+    elsif input == "exit"
+      exit_application
+    else
+      puts "Invaid"
+      select
+    end
   end
   
   def how_many
@@ -53,7 +60,7 @@ class MostReadBooks::CLI
       sleep(0.5)
     end
     print "Select book number for more detail(1-#{input+1}): "
-    select_book
+    select
     # print "Select number of book: "
     # book_index = gets.strip.to_i
     # book = MostReadBooks::Book.find_by_index(book_index)
