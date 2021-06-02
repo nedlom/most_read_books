@@ -60,10 +60,12 @@ class MostReadBooks::Book
   end
   
   def format
+    binding.pry
     @format = doc.css("#details .row")[0].text.split(",")[0]
-    
-  def pages
-    @pages = doc.css("#details .row")[0].text.split(" ")[1]
+  end
+  
+  def page_count
+    @page_count = doc.css("#details .row")[0].text.split(" ")[1]
   end
   
   def publisher

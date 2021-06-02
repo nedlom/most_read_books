@@ -1,8 +1,8 @@
 class MostReadBooks::CLI
   
   def welcome
-    MostReadBooks::Scraper.new.general_info
-    MostReadBooks::Book.all[0].format_and_pages
+    # MostReadBooks::Scraper.new.general_info
+    # MostReadBooks::Book.all[0].format_and_pages
     puts <<~WELCOME
     
       #{"-"*30}Most Read Books#{"-"*30}
@@ -10,7 +10,7 @@ class MostReadBooks::CLI
       read books in the United States this week (according to Goodreads). 
     
     WELCOME
-    #MostReadBooks::Scraper.new.general_info
+    MostReadBooks::Scraper.new.general_info
     select_books
   end
   
@@ -55,8 +55,9 @@ class MostReadBooks::CLI
     
     puts <<~PICK 
     
-      Excellent selection! You've chosen the number #{place} most read book this week.
-      It's been read by #{book.readers} people this week alone!
+      Excellent selection! You have chosen the number #{place} most read book this week.
+      The #{book.page_count} page #{book.format} published by #{book.publisher} has been
+      been read by #{book.readers} people this week alone!
       
     PICK
     puts "---Summary"
