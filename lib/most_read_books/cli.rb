@@ -1,29 +1,15 @@
 class MostReadBooks::CLI
   
   def welcome
-    MostReadBooks::Scraper.new.general_info
-    while true
-    input = gets.strip.to_i
-    format_paragraphs(MostReadBooks::Book.all[input].summary)
-  end
-     
-     
-     
-  #   while true
-  #   input = gets.strip.to_i
-  #   format_paragraphs(MostReadBooks::Book.all[input].summary1)
-  #   puts "--------------------------"
-  #   format_paragraphs(MostReadBooks::Book.all[input].summary2)
-  # end
-    # puts <<~WELCOME
+    puts <<~WELCOME
     
-    #   #{"-"*30}Most Read Books#{"-"*30}
-    #   Welcome to Most Read Books. This application provides details on the 50 most 
-    #   read books in the United States this week (according to Goodreads). 
+      #{format_headers("Most Read Books", "-")}
+      Welcome to Most Read Books. This application provides details on the 50 most 
+      read books in the United States this week (according to Goodreads). 
     
-    # WELCOME
-    # MostReadBooks::Scraper.new.general_info
-    # select_books
+    WELCOME
+    MostReadBooks::Scraper.new.scrape_books
+    select_books
   end
   
   def select_books
@@ -41,8 +27,9 @@ class MostReadBooks::CLI
   end
   
   def list_books(input)
-    puts "#{"-"*16}Top #{input + 1} Most Read Books This Week#{"-"*16}"
-    puts ""
+    # puts "#{"-"*22}Top #{input + 1} Most Read Books This Week#{"-"*22}"
+    # puts ""
+    puts "---Most Read Books This Week"
     MostReadBooks::Book.all[0..input].each.with_index(1) do |b, i|
       puts "#{i}. #{b.title} by #{b.author}"
     end
@@ -51,7 +38,7 @@ class MostReadBooks::CLI
   end
   
   def select_book
-    print "Select book number for more detail: "
+    print "Enter a number for more info: "
     book_index = gets.strip.to_i
     book = MostReadBooks::Book.find_by_index(book_index)
     puts ""
@@ -59,17 +46,12 @@ class MostReadBooks::CLI
   end
   
   def display_book(book)
-    len1 = (75 - book.title.length) / 2
-    len2 = (75 - "by {book.author}".length) / 2
-    place = MostReadBooks::Book.all.find_index(book) + 1
-    puts "#{"-"*len1}#{book.title}#{"-"*len1}"
-    puts "#{" "*len2}by #{book.author}#{" "*len2}"
-    
     puts <<~PICK 
-    
-      Excellent selection! You have chosen the number #{place} most read book this week.
-      The #{book.page_count} page #{book.format} published by #{book.publisher} has been
-      been read by #{book.readers} people this week alone!
+      #{format_headers(book.title, "-")}
+      #{format_headers("by #{book.author}", " ")}
+      You have chosen #{book.title} by #{book.author}. It is the number #{MostReadBooks::Book.all.find_index(book)} 
+      most read book of the week. The #{book.page_count} page #{book.format} published by #{book.publisher} 
+      has been been read by #{book.readers} people this week.
       
     PICK
     puts "---Summary"
@@ -100,6 +82,11 @@ class MostReadBooks::CLI
       puts p.scan(/(.{1,75})(?:\s|$)/m)
       puts ""
     end
+  end
+  
+  def format_headers(header, symbol)
+    wide = (75 - header.length) / 2
+    print "#{symbol * wide}#{header}#{symbol * wide}"
   end
   
   def exit_application

@@ -1,6 +1,6 @@
 class MostReadBooks::Scraper
   
-  def general_info
+  def scrape_books
     url = "https://www.goodreads.com/book/most_read"
     page = Nokogiri::HTML(open(url).read)
     page.css("tr").each do |b|
@@ -11,6 +11,10 @@ class MostReadBooks::Scraper
       readers = b.css(".greyText.statistic").text.strip.split("\n")[0]
       MostReadBooks::Book.new(title, author, url, ratings, readers)
     end
+  end
+  
+  def book_info
+    
   end
 
 end
