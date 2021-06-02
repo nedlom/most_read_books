@@ -1,6 +1,6 @@
 class MostReadBooks::CLI
   
-  def start
+  def welcome
     puts <<~WELCOME
     
       #{"-"*30}Most Read Books#{"-"*30}
@@ -8,68 +8,36 @@ class MostReadBooks::CLI
       read books in the United States this week (according to Goodreads). 
     
     WELCOME
-    #MostReadBooks::Scraper.new.general_info
-    select
-    # input = how_many
-    # puts ""
-    # list_books(input - 1)
+    MostReadBooks::Scraper.new.general_info
+    select_books
   end
   
-  def select
-    print "Select the number of books you would like to see."
-    print "Enter a number 1-50 or exit to quit: "
-    input = gets.strip
-    if input.to_i.between?(1, 50)
-      list_books(input.to_i - 1)
-    elsif input == "exit"
-      exit_application
-    else
-      puts "Invaid"
-      select
-    end
-  end
-  
-  def how_many
-    print "Would you like to see some books? (JUST HIT ENTER): "
-    input = gets.strip
-    puts ""
-    puts "Which ones: "
-    puts "1. Top 10"
-    puts "2. Top 20"
-    puts "3. Top 30"
-    puts "4. Top 40"
-    puts "5. See All"
-    print "Enter a number(1-5): "
-    x = gets.strip.to_i
-    if ![1,2,3,4,5].include?(x)
+  def select_books
+    print "How many books would you like to see(1-50)? "
+    input = gets.strip.to_i
+    if (1..50).include?(input)
       puts ""
-      how_many
+      list_books(input - 1)
     else
-      x * 10
+      puts ""
+      puts "Please choose a number from 1-50."
+      puts ""
+      select_books
     end
   end
   
   def list_books(input)
     puts "#{"-"*16}Top #{input + 1} Most Read Books This Week#{"-"*16}"
-    sleep(1)
     puts ""
     MostReadBooks::Book.all[0..input].each.with_index(1) do |b, i|
       puts "#{i}. #{b.title} by #{b.author}"
-      # puts "#{" "*i.to_s.length}  Read by: #{b.readers}"
-      puts ""
-      sleep(0.5)
     end
-    print "Select book number for more detail(1-#{input+1}): "
-    select
-    # print "Select number of book: "
-    # book_index = gets.strip.to_i
-    # book = MostReadBooks::Book.find_by_index(book_index)
-    # puts ""
-    # display_book(book)
+    puts ""
+    select_book
   end
   
   def select_book
-    # print "Select book number for more detail: "
+    print "Select book number for more detail: "
     book_index = gets.strip.to_i
     book = MostReadBooks::Book.find_by_index(book_index)
     puts ""
@@ -77,6 +45,7 @@ class MostReadBooks::CLI
   end
   
   def display_book(book)
+    binding.pry
     len1 = (75 - book.title.length) / 2
     len2 = (75 - "by {book.author}".length) / 2
     place = MostReadBooks::Book.all.find_index(book) + 1
@@ -89,104 +58,43 @@ class MostReadBooks::CLI
       It's been read by #{book.readers} people this week alone!
       
     PICK
-    
-    print "Hit enter key for summary: "
-    gets
-    puts ""
     puts "---Summary"
     format_paragraphs(book.summary)
-    t_function
-    # self.class.face
-    print "Hit enter key for author info: "
-    gets
-    puts ""
     puts "---About Author"
     format_paragraphs(book.about_author)
-    t_function
     select_another
   end
   
   def select_another
-    print "Would you like to see some books? Type q and hit enter to quit: "
+    print "Would you like to see more books(y/n)? "
     input = gets.strip
-    if input == "q"
-      quit
+    if input == "y"
+      puts ""
+      select_books
+    elsif input == "n"
+      exit_application
     else
       puts ""
-      puts "Which ones: "
-      puts "1. Top 10"
-      puts "2. Top 20"
-      puts "3. Top 30"
-      puts "4. Top 40"
-      puts "5. See All"
-      print "Enter a number(1-5): "
-      input = gets.strip.to_i * 10 - 1
+      puts "Please enter y or n."
       puts ""
-      list_books(input)
+      select_another
     end
   end
-  
-  def t_function
-    puts <<-T
-    ***TRACIE WARNING!!!***
-    IF YOU'RE SEEING THIS IT MEANS YOU HIT THE ENTER KEY FOR MORE BOOK 
-    INFORMATION. THE INFORMATION IS PRINTED TO THE SCREEN INSTANTANEOUSLY.
-    YOU ARE AT THE BOTTOM OF THE OUTPUT. YOU NEED TO PUT THE MOUSE CURSOR 
-    IN THE BLACK BOX (TERMINAL) AT THE BOTTOM OF THE SCREEN, CLICK INTO IT 
-    THEN USE TWO FINGERS TO SCROLL DOWN ON THE MOUSE PAD TO SEE WHERE THE 
-    INFORMATION YOU REQUESTED STARTS. 
-    
-    T
-    self.class.face
-  end
-  
-  def exit_application
-    puts "Have a nice day.\n"
-    exit
-  end
-  
-  def self.face
-    puts "\tO O\n\t < \n"
-    15.times do
-      print "\t - "
-      sleep(0.5)
-      print "\b\b0 - WARNING!"
-      sleep(0.5)
-      print "\b\b\b\b\b\b\b\b\b\b          \r"
-    end
-    print "\t o - You done been warned."
-    puts ""
-    puts ""
-  end
-  
-  
-  # def display_book(book)
-  #   puts "Title: #{book.title}"
-  #   puts "Author: #{book.author}"
-  #   puts "Ratings: #{book.ratings}"
-  #   puts ""
-  #   puts "---Summary"
-  #   book.summary.each do |p|
-  #     puts  format_paragraph(p)
-  #     puts ""
-  #   end
-  #   puts "---About The Author"
-  #   puts format_paragraph(book.about_author)
-  #   puts ""
-  #   puts "This book has been read by #{book.readers.strip.split("\n")[0]} people this week."
-  #   puts ""
-  #   select_another
-  # end
-  
-  def format_paragraphs(paragraph_array)
+ 
+   def format_paragraphs(paragraph_array)
     paragraph_array.each do |p|
       puts p.scan(/(.{1,75})(?:\s|$)/m)
       puts ""
     end
   end
   
+  def exit_application
+    puts ""
+    puts "Have a nice day."
+    exit
+  end
+  
   # def format_paragraph(p)
   #   p.scan(/(.{1,75})(?:\s|$)/m)
   # end
-
 end
