@@ -5,10 +5,10 @@ class MostReadBooks::CLI
     
       #{"-"*30}Most Read Books#{"-"*30}
       Welcome to Most Read Books. This application provides details on the 50 most 
-      read books in the United States this week (according to Goodreads).
-      
+      read books in the United States this week (according to Goodreads). 
+    
     WELCOME
-    MostReadBooks::Scraper.new.general_info
+    #MostReadBooks::Scraper.new.general_info
     select
     # input = how_many
     # puts ""
@@ -140,11 +140,8 @@ class MostReadBooks::CLI
     self.class.face
   end
   
-  def quit
-    puts ""
-    puts "Buh Bye"
-    sleep(1)
-    puts ""
+  def exit_application
+    puts "Have a nice day.\n"
     exit
   end
   
