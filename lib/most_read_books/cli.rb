@@ -27,8 +27,6 @@ class MostReadBooks::CLI
   end
   
   def list_books(input)
-    # puts "#{"-"*22}Top #{input + 1} Most Read Books This Week#{"-"*22}"
-    # puts ""
     puts "---Most Read Books This Week"
     MostReadBooks::Book.all[0..input].each.with_index(1) do |b, i|
       puts "#{i}. #{b.title} by #{b.author}"
@@ -46,6 +44,7 @@ class MostReadBooks::CLI
   end
   
   def display_book(book)
+    book.add_info
     puts <<~PICK 
       #{format_headers(book.title, "-")}
       #{format_headers("by #{book.author}", " ")}

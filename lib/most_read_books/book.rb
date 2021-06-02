@@ -21,41 +21,21 @@ class MostReadBooks::Book
     self.class.all << self
   end
   
-  def add_info(summary, about_author, format, page_count, publisher)
-    self.summary = summary
-    self.about_author = about_author
-    self.format = foramt
-    self.page_count = page_count
-    self.publisher = publisher
-  end
-  
-  def summary
-    element = doc.css("#description span")[1]
-    @summary = text_array(element)
-  end
-  
-  def about_author
-    element = doc.css(".bookAuthorProfile span")[1]
+  def add_info
+    self.page_count = book_page.css("#details .row")[0].text.split(" ")[1]
+    self.format = book_page.css("#details .row")[0].text.split(",")[0]
+    self.publisher = book_page.css("#details .row")[1].text.strip.split("by ").last
+    self.summary = text_array(book_page.css("#description span")[1])
+    
+    element = book_page.css(".bookAuthorProfile span")[1]
     if !element.nil?
-      @about_author = text_array(element)
+      self.about_author = text_array(element)
     else
       @about_author = ["There is no info about this author."]
     end
   end
   
-  def format
-    @format = doc.css("#details .row")[0].text.split(",")[0]
-  end
-  
-  def page_count
-    @page_count = doc.css("#details .row")[0].text.split(" ")[1]
-  end
-  
-  def publisher
-    @publisher = doc.css("#details .row")[1].text.strip.split("by ").last
-  end
-  
-  def doc
+  def book_page
     Nokogiri::HTML(open(self.url).read)
   end
   
@@ -73,5 +53,30 @@ class MostReadBooks::Book
       paragraphs.delete_if {|p| p == "" || p == " " || p == "br"}
       paragraphs
   end
-
+  
+  # def summary
+  #   element = book_page.css("#description span")[1]
+  #   @summary = text_array(book_page.css("#description span")[1])
+  # end
+  
+  # def about_author
+  #   element = doc.css(".bookAuthorProfile span")[1]
+  #   if !element.nil?
+  #     @about_author = text_array(element)
+  #   else
+  #     @about_author = ["There is no info about this author."]
+  #   end
+  # end
+  
+  # def format
+  #   @format = doc.css("#details .row")[0].text.split(",")[0]
+  # end
+  
+  # def page_count
+  #   @page_count = doc.css("#details .row")[0].text.split(" ")[1]
+  # end
+  
+  # def publisher
+  #   @publisher = doc.css("#details .row")[1].text.strip.split("by ").last
+  # end
 end
