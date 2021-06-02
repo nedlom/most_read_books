@@ -8,6 +8,10 @@ class MostReadBooks::Book
     @@all
   end
   
+  def self.find_by_index(index)
+    self.all[index - 1]
+  end
+  
   def initialize(title, author, url, ratings, readers)
     @title = title
     @author = author
@@ -17,8 +21,12 @@ class MostReadBooks::Book
     self.class.all << self
   end
   
-  def self.find_by_index(index)
-    self.all[index - 1]
+  def add_info(summary, about_author, format, page_count, publisher)
+    self.summary = summary
+    self.about_author = about_author
+    self.format = foramt
+    self.page_count = page_count
+    self.publisher = publisher
   end
   
   def summary
