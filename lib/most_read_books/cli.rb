@@ -44,11 +44,8 @@ class MostReadBooks::CLI
   end
   
   def display_book(book)
-    book.add_info
     puts <<~PICK 
-      #{format_headers(book.title, "-")}
-      #{format_headers("by #{book.author}", " ")}
-      You have chosen #{book.title} by #{book.author}. It is the number #{MostReadBooks::Book.all.find_index(book)} 
+      #{book.title} by #{book.author} is the number #{MostReadBooks::Book.all.find_index(book)} 
       most read book of the week. The #{book.page_count} page #{book.format} published by #{book.publisher} 
       has been been read by #{book.readers} people this week.
       
