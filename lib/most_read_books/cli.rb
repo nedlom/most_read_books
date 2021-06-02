@@ -1,9 +1,13 @@
 class MostReadBooks::CLI
   
   def welcome
-     MostReadBooks::Scraper.new.general_info
-     MostReadBooks::Book.all[0].summary1
-     MostReadBooks::Book.all[0].summary1
+    MostReadBooks::Scraper.new.general_info
+    while true
+    input = gets.strip.to_i
+    format_paragraphs(MostReadBooks::Book.all[input].summary)
+  end
+     
+     
      
   #   while true
   #   input = gets.strip.to_i

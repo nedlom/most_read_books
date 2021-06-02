@@ -21,46 +21,21 @@ class MostReadBooks::Book
     self.all[index - 1]
   end
   
-  # problem summary: 2, 3, 6, 8, 9, 10
   def summary
     element = doc.css("#description span")[1]
-    node_set = element.children
-    paragraphs = node_set.map do |n|
-      if n.name == "br"
-        n.name
-      else
-        n.text
-      end
-    end
-    binding.pry
-    paragraphs.delete(" ")
-    @summary = paragraphs.join.split("brbr")
+    @summary = text_array(element)
   end
   
-  #could be nil or "\""
-  # could be paragraphs
   def about_author
     element = doc.css(".bookAuthorProfile span")[1]
     if !element.nil?
-      node_set = element.children
-      paragraphs = node_set.map do |n|
-        if n.name == "br"
-          n.name
-        else
-          n.text
-        end
-      end
-      paragraphs.delete(" ")
-      paragraphs = paragraphs.join.split("brbr")
-      paragraphs.delete_if {|p| p == "" || p == " " || p == "br"}
-      @about_author = paragraphs
+      @about_author = text_array(element)
     else
       @about_author = ["There is no info about this author."]
     end
   end
   
   def format
-    binding.pry
     @format = doc.css("#details .row")[0].text.split(",")[0]
   end
   
@@ -76,7 +51,19 @@ class MostReadBooks::Book
     Nokogiri::HTML(open(self.url).read)
   end
   
-  def text_arrays
+  def text_array(element)
+    node_set = element.children
+      paragraphs = node_set.map do |n|
+        if n.name == "br"
+          n.name
+        else
+          n.text
+        end
+      end
+      paragraphs.delete(" ")
+      paragraphs = paragraphs.join.split("brbr")
+      paragraphs.delete_if {|p| p == "" || p == " " || p == "br"}
+      paragraphs
   end
 
 end
