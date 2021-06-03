@@ -8,17 +8,23 @@ class MostReadBooks::Book
     @@all
   end
   
-  def self.find_by_index(index)
-    self.all[index - 1]
+  def self.find(id)
+    self.all[id - 1]
   end
   
-  def self.print_books
-    self.all.each.with_index(1) do |book, index|
-      puts "#{index}. #{book.name} by #{book.author}"
-    end  
+  def self.print_books(input=nil)
+    if input.nil?
+      self.all.each.with_index(1) do |book, index|
+        puts "#{index}. #{book.title} by #{book.author}"
+      end  
+    else
+      self.all[0..input - 1].each.with_index(1) do |book, index|
+        puts "#{index}. #{book.title} by #{book.author}"
+      end 
+    end
   end  
-  
-  def initialize(title, author, url, ratings, readers)
+
+  def initialize(title=nil, author=nil, url=nil, ratings=nil, readers=nil)
     @title = title
     @author = author
     @url = url
