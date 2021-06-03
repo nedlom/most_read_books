@@ -4,7 +4,7 @@ class MostReadBooks::CLI
     MostReadBooks::Scraper.new.scrape_books
     while true
     input = gets.strip.to_i
-    MostReadBooks::Book.all[input].about_author
+    MostReadBooks::Book.all[input].summary
   end
   #issues: 25
   #start at 33
