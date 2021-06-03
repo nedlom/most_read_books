@@ -1,15 +1,4 @@
 class MostReadBooks::CLI
-    
-  # def welcome
-  #   MostReadBooks::Scraper.new.scrape_books
-  #   while true
-  #   input = gets.strip.to_i
-  #   MostReadBooks::Book.all[input].summary
-  # end
-  # #issues: 25
-  # #start at 33
-  # end
-  
   def welcome
     puts ""
     puts "#{"-" * 30}Most Read Books#{"-" * 30}"
@@ -28,6 +17,7 @@ class MostReadBooks::CLI
       puts ""
       puts "---Top #{input} Most Read Books This Week"
       MostReadBooks::Book.print_books(input)
+      puts ""
       select_book
     else
       puts ""
@@ -51,12 +41,13 @@ class MostReadBooks::CLI
   end
   
   def display_book(book)
-    # puts <<~PICK 
-    #   #{book.title} by #{book.author} is the number #{MostReadBooks::Book.all.find_index(book)} 
-    #   most read book of the week. The #{book.page_count} page #{book.format} published by #{book.publisher} 
-    #   has been been read by #{book.readers} people this week.
-      
-    # PICK
+    puts "You've picked the number #{MostReadBooks::Book.all.find_index(book) + 1} most read book this week."
+    puts "It's been read by #{book.readers} people this week."
+    puts "Title: #{book.title}"
+    puts "Author: #{book.author}"
+    puts "Page Count: #{book.number_of_pages}"
+    puts "Format: #{book.book_format}"
+    puts "Publisher: #{book.publisher}"
     puts "---Summary"
     book.format_paragraphs(book.summary)
     puts "---About Author"
