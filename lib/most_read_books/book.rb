@@ -91,14 +91,18 @@ class MostReadBooks::Book
     #   p != "" && p != " "
     # end
     
-    paragraphs = doc.css("#description span")[1].children.map do |p|
-      p.text
+    text_array = doc.css("#description span")[1].children.map do |node|
+      node.text
     end
+    
     binding.pry
-    squeeze = paragraphs.chunk do |p|
-      p != "" && p != " "
+  
+    text_groups = text_array.chunk do |line|
+      line != "" && line != " "
     end.to_a
+    
     binding.pry
+    
     @summary = squeeze.map do |b|
       b[1].join if b[0]
     end.compact
