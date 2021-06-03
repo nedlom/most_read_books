@@ -75,11 +75,20 @@ class MostReadBooks::Book
   # end
   
   def summary
-    nodes_array = doc.css("#description span")[1].children
-    b = nodes_array.chunk_while{|a| a != ""}
-    b.delete([""])
-    c = b.map {|a| a.join}
-
+    paragraphs = doc.css("#description span")[1].children.map do |p|
+      p.text
+    end
+    squeeze = paragraphs.chunk_while do |p|
+      p != ""
+    end.to_a
+    
+    squeeze.delete([""])
+   
+    paragraphs = squeeze.map do |p|
+      p.join
+    end
+    
+    
     binding.pry
     @summary = text_array(doc.css("#description span")[1])
   end
