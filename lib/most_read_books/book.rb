@@ -63,6 +63,7 @@ class MostReadBooks::Book
     text_array = element.children.map do |node|
       node.text
     end
+    
     binding.pry
     
     # text_groups returns array of form [[true or false, [strings]],...]
@@ -71,9 +72,18 @@ class MostReadBooks::Book
       line != "" && line != " "
     end.to_a
     
+    binding.pry
+    
+    # group[1] is an array of strings
     text_groups.map do |group|
       group[1].join if group[0]
     end.compact
+    
+    # element.children.chunk do |a|
+    #   a.text != "" && a.text != " "
+    # end.to_a.map do |b|
+    #   b[1].map {|b| b.text}.join if b[0]
+    # end.compact
   end
   
   def format_paragraphs(paragraphs)
