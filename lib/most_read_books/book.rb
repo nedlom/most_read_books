@@ -95,22 +95,19 @@ class MostReadBooks::Book
       node.text
     end
     
-    binding.pry
-  
+    # text_groups is array of form [[true/false, [strings]],...]
+    # true/false, strings grouped together based on return value of block
     text_groups = text_array.chunk do |line|
       line != "" && line != " "
     end.to_a
     
-    binding.pry
-    
-    @summary = squeeze.map do |b|
-      b[1].join if b[0]
+    @summary = text_groups.map do |group|
+      group[1].join if group[0]
     end.compact
-    binding.pry
   end
   
-  def format_paragraphs(paragraph_array)
-    paragraph_array.each do |p|
+  def format_summary
+    self.summary.each do |p|
       puts p.scan(/(.{1,75})(?:\s|$)/m)
       puts ""
     end
