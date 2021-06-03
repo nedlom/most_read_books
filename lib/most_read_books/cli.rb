@@ -1,32 +1,34 @@
 class MostReadBooks::CLI
+    
+  # def welcome
+  #   MostReadBooks::Scraper.new.scrape_books
+  #   while true
+  #   input = gets.strip.to_i
+  #   MostReadBooks::Book.all[input].summary
+  # end
+  # #issues: 25
+  # #start at 33
+  # end
   
   def welcome
-    MostReadBooks::Scraper.new.scrape_books
-    while true
-    input = gets.strip.to_i
-    MostReadBooks::Book.all[input].summary
-  end
-  #issues: 25
-  #start at 33
-  end
-  
-  # def welcome
-  #   puts ""
-  #   puts "#{"-" * 30}Most Read Books#{"-" * 30}"
-  #   puts "Welcome to Most Read Books. This application showcases the 50 most read"
-  #   puts "books in the United States this week (according to Goodreads)." 
-  #   puts ""
+    puts ""
+    puts "#{"-" * 30}Most Read Books#{"-" * 30}"
+    puts "Welcome to Most Read Books. This application showcases the 50 most read"
+    puts "books in the United States this week (according to Goodreads)." 
+    puts ""
     
-  #   MostReadBooks::Scraper.new.scrape_books
-  #   select_books
-  # end
+    MostReadBooks::Scraper.new.scrape_books
+    select_books
+  end
   
   def select_books
     print "How many books would you like to see(1-50)? "
     input = gets.strip.to_i
     if (1..50).include?(input)
       puts ""
-      list_books(input)
+      puts "---Top #{input} Most Read Books This Week"
+      MostReadBooks::Book.print_books(input)
+      select_book
     else
       puts ""
       puts "Please choose a number from 1-50."
@@ -35,31 +37,31 @@ class MostReadBooks::CLI
     end
   end
   
-  def list_books(input)
-    puts "---Top #{input} Most Read Books This Week"
-    MostReadBooks::Book.print_books(input)
-    select_book
-  end
+  # def list_books(input)
+  #   MostReadBooks::Book.print_books(input)
+  #   select_book
+  # end
   
   def select_book
     print "Enter a number for more info: "
     book_index = gets.strip.to_i
-    book = MostReadBooks::Book.find_by_index(book_index)
+    book = MostReadBooks::Book.find(book_index)
     puts ""
     display_book(book)
   end
   
   def display_book(book)
-    puts <<~PICK 
-      #{book.title} by #{book.author} is the number #{MostReadBooks::Book.all.find_index(book)} 
-      most read book of the week. The #{book.page_count} page #{book.format} published by #{book.publisher} 
-      has been been read by #{book.readers} people this week.
+    # puts <<~PICK 
+    #   #{book.title} by #{book.author} is the number #{MostReadBooks::Book.all.find_index(book)} 
+    #   most read book of the week. The #{book.page_count} page #{book.format} published by #{book.publisher} 
+    #   has been been read by #{book.readers} people this week.
       
-    PICK
+    # PICK
     puts "---Summary"
-    format_paragraphs(book.summary)
+    book.format_paragraphs(book.summary)
     puts "---About Author"
-    format_paragraphs(book.about_author)
+    book.format_paragraphs(book.about_author)
+    puts ""
     select_another
   end
   
@@ -78,21 +80,10 @@ class MostReadBooks::CLI
       select_another
     end
   end
- 
-  def format_paragraphs(paragraph_array)
-    paragraph_array.each do |p|
-      puts p.scan(/(.{1,75})(?:\s|$)/m)
-      puts ""
-    end
-  end
   
   def exit_application
     puts ""
     puts "Have a nice day."
     exit
   end
-  
-  # def format_paragraph(p)
-  #   p.scan(/(.{1,75})(?:\s|$)/m)
-  # end
 end

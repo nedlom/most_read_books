@@ -13,7 +13,7 @@ class MostReadBooks::Book
   end
   
   def self.print_books(input)
-    self.all[0..input - 1].each.with_index(1) do |book, index|
+    self.all.take(input).each.with_index(1) do |book, index|
       puts "#{index}. #{book.title} by #{book.author}"
     end 
   end
@@ -48,16 +48,15 @@ class MostReadBooks::Book
       @about_author = "There is no information for this author"
     else
       if doc.css(".bookAuthorProfile span").length == 2
-        @about_author = make_author(doc.css(".bookAuthorProfile span")[1])
+        @about_author = make_paragraphs(doc.css(".bookAuthorProfile span")[1])
       else
-        @about_author = make_author(doc.css(".bookAuthorProfile span")[0])
+        @about_author = make_paragraphs(doc.css(".bookAuthorProfile span")[0])
       end
     end
   end
 
   def summary
     @summary = make_paragraphs(doc.css("#description span")[1])
-    binding.pry
   end
   
   def make_paragraphs(element)
@@ -76,17 +75,14 @@ class MostReadBooks::Book
     end.compact
   end
   
-  def format_summary
-    self.summary.each do |p|
-      puts p.scan(/(.{1,75})(?:\s|$)/m)
-      puts ""
-    end
-  end
-  
-  def format_author(array)
-    array.each do |p|
-      puts p.scan(/(.{1,75})(?:\s|$)/m)
-      puts ""
+  def format_paragraphs(x)
+    if x.class == Array
+      x.each do |p|
+        puts p.scan(/(.{1,75})(?:\s|$)/m)
+        puts ""
+      end 
+    else
+      puts x
     end
   end
   
