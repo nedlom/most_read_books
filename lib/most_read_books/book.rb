@@ -92,6 +92,9 @@ class MostReadBooks::Book
     end
     
     binding.pry
+    paragraphs.chunk{|p| p != "" && p != " "}.to_a.map do |b|
+[12] pry(#<MostReadBooks::Book>)*   b[1][0] if b[0][12] pry(#<MostReadBooks::Book>)* end.compact
+    
     
     @summary = summary.select do |p|
       p != "" && p != " "
