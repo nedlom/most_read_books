@@ -1,6 +1,6 @@
 class MostReadBooks::Book
   
-  attr_accessor :title, :author, :url, :ratings, :readers, :format, :page_count, :publisher, :summary, :about_author
+  attr_accessor :title, :author, :url, :ratings, :readers, :book_format, :number_of_pages, :publisher, :summary, :about_author
   
   @@all = []
   
@@ -31,11 +31,11 @@ class MostReadBooks::Book
     Nokogiri::HTML(open(self.url).read)
   end
   
-  def format
+  def book_format
     @format = doc.css("#details .row")[0].text.split(",")[0]
   end
   
-  def page_count
+  def number_of_pages
     @page_count = doc.css("#details .row")[0].text.split(" ")[1]
   end
   
@@ -45,22 +45,21 @@ class MostReadBooks::Book
 
   
   def summary
-    element = doc.css("#description span")[1]
-    binding.pry
-    @summary = text_array(book_page.css("#description span")[1])
+    @summary = doc.css("#description span")[1].text
   end
   
   def about_author
     if !doc.css(".bookAuthorProfile span").empty?
       if doc.css(".bookAuthorProfile span").length == 2
-        paragraphs = doc.css(".bookAuthorProfile span")[1]
-        binding.pry
+        about_author = doc.css(".bookAuthorProfile span")[1]
       else
-        paragraphs = doc.css(".bookAuthorProfile span")[0]
+        about_author = doc.css(".bookAuthorProfile span")[0]
       end
     else
-      paragraphs = "No author info"
+      about_author = "No author info"
     end
+    @about_author = about_author
+  end
     
 
     # if this has 2 elements choose [1]
@@ -73,6 +72,12 @@ class MostReadBooks::Book
     # else
     #   @about_author = ["There is no info about this author."]
     # end
+  end
+  
+  def summary
+    element = doc.css("#description span")[1]
+    binding.pry
+    @summary = text_array(book_page.css("#description span")[1])
   end
   
   def text_array(element)

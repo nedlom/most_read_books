@@ -79,16 +79,11 @@ class MostReadBooks::CLI
     end
   end
  
-   def format_paragraphs(paragraph_array)
+  def format_paragraphs(paragraph_array)
     paragraph_array.each do |p|
       puts p.scan(/(.{1,75})(?:\s|$)/m)
       puts ""
     end
-  end
-  
-  def format_headers(header, symbol)
-    wide = (75 - header.length) / 2
-    print "#{symbol * wide}#{header}#{symbol * wide}"
   end
   
   def exit_application
