@@ -53,8 +53,21 @@ class MostReadBooks::Book
   end
   
   def about_author
+    if !doc.css(".bookAuthorProfile span").empty?
+      if doc.css(".bookAuthorProfile span").length == 2
+        paragraphs = doc.css(".bookAuthorProfile span")[1]
+      else
+        paragraphs = doc.css(".bookAuthorProfile span")[0]
+      end
+    else
+      paragraphs = "No author info"
+    end
+    
+        
+    binding.pry
     # if this has 2 elements choose [1]
-    puts doc.css(".bookAuthorProfile").text
+    # if no span then no profile
+    # puts doc.css(".bookAuthorProfile").text
     # binding.pry
     # element = doc.css(".bookAuthorProfile span")[1]
     # if !element.nil?
