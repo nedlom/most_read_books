@@ -59,6 +59,7 @@ class MostReadBooks::Book
       about_author = "No author info"
     end
     @about_author = about_author
+    binding.pry
   end
     
 
@@ -91,6 +92,22 @@ class MostReadBooks::Book
     #   p != "" && p != " "
     # end
     
+    text_array = doc.css("#description span")[1].children.map do |node|
+      node.text
+    end
+    
+    # text_groups is array of form [[true/false, [strings]],...]
+    # true/false, strings grouped together based on return value of block
+    text_groups = text_array.chunk do |line|
+      line != "" && line != " "
+    end.to_a
+    
+    @summary = text_groups.map do |group|
+      group[1].join if group[0]
+    end.compact
+  end
+  
+  def maker
     text_array = doc.css("#description span")[1].children.map do |node|
       node.text
     end
