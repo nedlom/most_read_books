@@ -1,8 +1,7 @@
 class MostReadBooks::Scraper
-  
+
   def scrape_books
-    url = "https://www.goodreads.com/book/most_read"
-    page = Nokogiri::HTML(open(url).read)
+    page = Nokogiri::HTML(open("https://www.goodreads.com/book/most_read").read)
     page.css("tr").each do |b|
       title = b.css("[itemprop='name']")[0].text
       author = b.css("[itemprop='name']")[1].text

@@ -17,6 +17,11 @@ class MostReadBooks::Book
       puts "#{index}. #{book.title} by #{book.author}"
     end 
   end
+  
+  def initialize(student_hash)
+    student_hash.each{|key, value| self.send(("#{key}="), value)}
+    self.class.all << self
+  end
 
   def initialize(title=nil, author=nil, url=nil, ratings=nil, readers=nil)
     @title = title
@@ -63,9 +68,10 @@ class MostReadBooks::Book
     text_array = element.children.map do |node|
       node.text
     end
+    binding.pry
     
-    # text_groups is array of form [[true/false, [strings]],...]
-    # true/false, strings grouped together based on return value of block
+    # text_groups is array of form [[true or false, [strings]],...]
+    # true or false/string arrayd determined by blocks return value
     text_groups = text_array.chunk do |line|
       line != "" && line != " "
     end.to_a
