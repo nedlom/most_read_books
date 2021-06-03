@@ -44,9 +44,9 @@ class MostReadBooks::Book
   end
 
   
-  def summary
-    @summary = doc.css("#description span")[1].text
-  end
+  # def summary
+  #   @summary = doc.css("#description span")[1].text
+  # end
   
   def about_author
     if !doc.css(".bookAuthorProfile span").empty?
@@ -72,12 +72,16 @@ class MostReadBooks::Book
     # else
     #   @about_author = ["There is no info about this author."]
     # end
-  end
+  # end
   
   def summary
-    element = doc.css("#description span")[1]
+    nodes_array = doc.css("#description span")[1].children
+    b = nodes_array.chunk_while{|a| a != ""}
+    b.delete([""])
+    c = b.map {|a| a.join}
+
     binding.pry
-    @summary = text_array(book_page.css("#description span")[1])
+    @summary = text_array(doc.css("#description span")[1])
   end
   
   def text_array(element)
