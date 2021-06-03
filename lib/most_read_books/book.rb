@@ -12,6 +12,12 @@ class MostReadBooks::Book
     self.all[index - 1]
   end
   
+  def self.print_books
+    self.all.each.with_index(1) do |book, index|
+      puts "#{index}. #{book.name} by #{book.author}"
+    end  
+  end  
+  
   def initialize(title, author, url, ratings, readers)
     @title = title
     @author = author
