@@ -26,12 +26,7 @@ class MostReadBooks::CLI
       select_books
     end
   end
-  
-  # def list_books(input)
-  #   MostReadBooks::Book.print_books(input)
-  #   select_book
-  # end
-  
+
   def select_book
     print "Enter a number for more info: "
     book_index = gets.strip.to_i
