@@ -1,31 +1,30 @@
 class MostReadBooks::CLI
   
-  def welcome
-    MostReadBooks::Scraper.new.scrape_books
-    while true
-    input = gets.strip.to_i
-    MostReadBooks::Book.all[input].summary
-  end
-  end
-  
   # def welcome
-  #   puts <<~WELCOME
-    
-  #     #{format_headers("Most Read Books", "-")}
-  #     Welcome to Most Read Books. This application provides details on the 50 most 
-  #     read books in the United States this week (according to Goodreads). 
-    
-  #   WELCOME
   #   MostReadBooks::Scraper.new.scrape_books
-  #   select_books
+  #   while true
+  #   input = gets.strip.to_i
+  #   MostReadBooks::Book.all[input].summary
   # end
+  # end
+  
+  def welcome
+    puts ""
+    puts "#{"-" * 30}Most Read Books#{"-" * 30}"
+    puts "Welcome to Most Read Books. This application showcases the 50 most read"
+    puts "books in the United States this week (according to Goodreads)." 
+    puts ""
+    
+    MostReadBooks::Scraper.new.scrape_books
+    select_books
+  end
   
   def select_books
     print "How many books would you like to see(1-50)? "
     input = gets.strip.to_i
     if (1..50).include?(input)
       puts ""
-      list_books(input - 1)
+      list_books(input)
     else
       puts ""
       puts "Please choose a number from 1-50."
@@ -35,11 +34,8 @@ class MostReadBooks::CLI
   end
   
   def list_books(input)
-    puts "---Most Read Books This Week"
-    MostReadBooks::Book.all[0..input].each.with_index(1) do |b, i|
-      puts "#{i}. #{b.title} by #{b.author}"
-    end
-    puts ""
+    puts "---Top #{input} Most Read Books This Week"
+    MostReadBooks::Book.print_books(input)
     select_book
   end
   
