@@ -54,12 +54,14 @@ class MostReadBooks::Book
   
   def about_author
     # if this has 2 elements choose [1]
-    element = doc.css(".bookAuthorProfile span")[1]
-    if !element.nil?
-      @about_author = text_array(element)
-    else
-      @about_author = ["There is no info about this author."]
-    end
+    puts doc.css(".bookAuthorProfile").text
+    # binding.pry
+    # element = doc.css(".bookAuthorProfile span")[1]
+    # if !element.nil?
+    #   @about_author = text_array(element)
+    # else
+    #   @about_author = ["There is no info about this author."]
+    # end
   end
   
   def format
