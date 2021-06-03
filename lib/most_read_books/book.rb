@@ -27,25 +27,10 @@ class MostReadBooks::Book
     self.class.all << self
   end
   
-  # def add_info
-  #   self.page_count = book_page.css("#details .row")[0].text.split(" ")[1]
-  #   self.format = book_page.css("#details .row")[0].text.split(",")[0]
-  #   self.publisher = book_page.css("#details .row")[1].text.strip.split("by ").last
-  #   self.summary = text_array(book_page.css("#description span")[1])
-    
-  #   element = book_page.css(".bookAuthorProfile span")[1]
-  #   if !element.nil?
-  #     self.about_author = text_array(element)
-  #   else
-  #     @about_author = ["There is no info about this author."]
-  #   end
-  # end
-  
   def doc
     Nokogiri::HTML(open(self.url).read)
   end
   
-  #text_array 
   def text_array(element)
     node_set = element.children
       paragraphs = node_set.map do |n|
@@ -68,6 +53,7 @@ class MostReadBooks::Book
   end
   
   def about_author
+    # if this has 2 elements choose [1]
     element = doc.css(".bookAuthorProfile span")[1]
     if !element.nil?
       @about_author = text_array(element)
