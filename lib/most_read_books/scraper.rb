@@ -11,5 +11,4 @@ class MostReadBooks::Scraper
       MostReadBooks::Book.new(title, author, url, ratings, readers)
     end
   end
-
 end

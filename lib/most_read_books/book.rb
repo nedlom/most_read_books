@@ -17,11 +17,6 @@ class MostReadBooks::Book
       puts "#{index}. #{book.title} by #{book.author}"
     end 
   end
-  
-  def initialize(student_hash)
-    student_hash.each{|key, value| self.send(("#{key}="), value)}
-    self.class.all << self
-  end
 
   def initialize(title=nil, author=nil, url=nil, ratings=nil, readers=nil)
     @title = title
@@ -70,8 +65,8 @@ class MostReadBooks::Book
     end
     binding.pry
     
-    # text_groups is array of form [[true or false, [strings]],...]
-    # true or false/string arrayd determined by blocks return value
+    # text_groups returns array of form [[true or false, [strings]],...]
+    # true or false/strings array determined by block's return value
     text_groups = text_array.chunk do |line|
       line != "" && line != " "
     end.to_a
@@ -81,14 +76,14 @@ class MostReadBooks::Book
     end.compact
   end
   
-  def format_paragraphs(x)
-    if x.class == Array
-      x.each do |p|
-        puts p.scan(/(.{1,75})(?:\s|$)/m)
+  def format_paragraphs(paragraphs)
+    if paragraphs.class == Array
+      paragraphs.each do |paragraph|
+        puts paragraph.scan(/(.{1,75})(?:\s|$)/m)
         puts ""
       end 
     else
-      puts x
+      puts paragraphs
     end
   end
 end
