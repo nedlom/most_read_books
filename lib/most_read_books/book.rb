@@ -75,30 +75,34 @@ class MostReadBooks::Book
   # end
   
   def summary
+    # paragraphs = doc.css("#description span")[1].children.map do |p|
+    #   p.text
+    # end
+
+    # squeeze = paragraphs.chunk_while do |p|
+    #   p != "" && p != " "
+    # end.to_a
+   
+    # summary = squeeze.map do |p|
+    #   p.join
+    # end
+    
+    # @summary = summary.select do |p|
+    #   p != "" && p != " "
+    # end
+    
     paragraphs = doc.css("#description span")[1].children.map do |p|
       p.text
     end
-    
     binding.pry
-
-    squeeze = paragraphs.chunk_while do |p|
+    squeeze = paragraphs.chunk do |p|
       p != "" && p != " "
     end.to_a
-    
     binding.pry
-   
-    summary = squeeze.map do |p|
-      p.join
-    end
-    
+    @summary = squeeze.map do |b|
+      b[1].join if b[0]
+    end.compact
     binding.pry
-    paragraphs.chunk{|p| p != "" && p != " "}.to_a.map do |b|
-[12] pry(#<MostReadBooks::Book>)*   b[1][0] if b[0][12] pry(#<MostReadBooks::Book>)* end.compact
-    
-    
-    @summary = summary.select do |p|
-      p != "" && p != " "
-    end
   end
   
   def format_paragraphs(paragraph_array)
