@@ -42,8 +42,7 @@ class MostReadBooks::CLI
   
   def display_book(book)
     puts ""
-    puts "You've picked #{@input} most read book this week."
-    puts "It's been read by #{book.readers} people this week."
+    puts "---Number #{@input} Most Read Book This Week"
     puts "Title: #{book.title}"
     puts "Author: #{book.author}"
     puts "Page Count: #{book.number_of_pages}"
