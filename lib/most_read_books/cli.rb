@@ -11,12 +11,13 @@ class MostReadBooks::CLI
 
   def menu
     print "How many books would you like to see? Enter a number from 1-#{MostReadBooks::Book.all.length}: "
-    input = gets.strip.to_i
-    puts ""
+    @input = gets.strip.to_i
     
-    if (1..MostReadBooks::Book.all.length).include?(input)
-      MostReadBooks::Book.print_books(input)
-      get_book(input)
+    if (1..MostReadBooks::Book.all.length).include?(@input)
+      puts ""
+      puts "---Top #{@input} Most Read Books This Week"
+      MostReadBooks::Book.print_books(@input)
+      get_book
     else
       puts "Please enter a number from 1-#{MostReadBooks::Book.all.length}."
       puts ""
@@ -26,22 +27,22 @@ class MostReadBooks::CLI
     see_more_books_or_exit
   end
   
-  def get_book(input)
+  def get_book
     puts ""
-    print "Select a book number for details (1-#{input}): "
+    print "Select a book number for details (1-#{@input}): "
     book_number = gets.strip.to_i
-    if (1..input).include?(book_number)
+    if (1..@input).include?(book_number)
       book = MostReadBooks::Book.find(book_number)
       display_book(book)
     else
-      puts "Please enter a number from 1 - #{input}."
-      get_book(input)
+      puts "Please enter a number from 1 - #{@input}."
+      get_book
     end
   end
   
   def display_book(book)
     puts ""
-    puts "You've picked the number #{MostReadBooks::Book.all.find_index(book) + 1} most read book this week."
+    puts "You've picked #{@input} most read book this week."
     puts "It's been read by #{book.readers} people this week."
     puts "Title: #{book.title}"
     puts "Author: #{book.author}"
@@ -61,6 +62,7 @@ class MostReadBooks::CLI
     print "Would you like to see more books? Enter 'y' or 'n': "
     input = gets.strip
     if input == "y"
+      puts ""
       menu
     elsif input == "n"
       close_application
