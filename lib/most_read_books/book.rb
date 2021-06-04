@@ -64,7 +64,7 @@ class MostReadBooks::Book
       node.text
     end
     
-    binding.pry
+    # binding.pry
     
     # text_groups returns array of form [[true or false, [strings]],...]
     # true or false/strings array determined by block's return value
@@ -72,7 +72,7 @@ class MostReadBooks::Book
       line != "" && line != " "
     end.to_a
     
-    binding.pry
+    # binding.pry
     
     # group[1] is an array of strings
     text_groups.map do |group|
