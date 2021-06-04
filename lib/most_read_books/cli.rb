@@ -1,6 +1,6 @@
 class MostReadBooks::CLI
   def welcome
-    # MostReadBooks::Scraper.new.scrape_books
+    MostReadBooks::Scraper.new.scrape_books
     puts ""
     puts "#{"-" * 30}Most Read Books#{"-" * 30}"
     puts "Welcome to Most Read Books. This application showcases the #{MostReadBooks::Book.all.length} most read"
@@ -8,97 +8,35 @@ class MostReadBooks::CLI
     puts ""
     menu
   end
-  
-  # list_books
-  # display_book_details
-  
-  
+
   def menu
     print "How many books would you like to see? Enter a number from 1-#{MostReadBooks::Book.all.length}: "
     input = gets.strip.to_i
     puts ""
     
     if (1..MostReadBooks::Book.all.length).include?(input)
-      MostReadBooks::Books.print_books(input)
-      display_book_details(input)
+      MostReadBooks::Book.print_books(input)
+      get_book(input)
     else
       puts "Please enter a number from 1-#{MostReadBooks::Book.all.length}."
       puts ""
       menu
     end
     
-    # print "Would you like to see more books? Enter 'y' or 'n':"
-    # input = gets.strip
-    # if input == "y"
-    #   menu
-    # elsif input == "n"
-    #   close_application
-    # else
-    #   function
-    # end
+    see_more_books_or_exit
   end
   
-  def display_book_details(input)
-    print "Select a book number for details(1-#{input}): "
+  def get_book(input)
+    puts ""
+    print "Select a book number for details (1-#{input}): "
     book_number = gets.strip.to_i
-  end
-  
-  
-  def list_books
-    puts ""
-      print "How many books would you like to see(1-50): "
-      input = gets.strip.to_i
-      if num_in_range?(input, 50)
-        puts ""
-        puts "---Top #{input} most read books of the week."
-        MostReadBooks::Book.print_books(input)
-      else
-        puts ""
-        puts "Please enter a number from 1 - 50"
-        list_books
-      end
-  end
-  
-  def select_book
-    puts "Enter number of book you want to see: "
-    input = gets.strip.to_i
-    
-  end
-  
-  # puts ""
-  #     print "Which book would you like to see? Enter a number 1-#{input}: "
-  #     input = gets.strip.to_i
-  #     book = MostReadBooks::Book.find(input)
-  #     display_book(book)
-  
-  def num_in_range?(input, range)
-    (1..range).include?(input)
-  end
-  
-  
-  def select_books
-    print "How many books would you like to see(1-50)? "
-    input = gets.strip.to_i
-    if (1..50).include?(input)
-      puts ""
-      puts "---Top #{input} Most Read Books This Week"
-      MostReadBooks::Book.print_books(input)
-      puts ""
-      select_book
+    if (1..input).include?(book_number)
+      book = MostReadBooks::Book.find(book_number)
+      display_book(book)
     else
-      puts ""
-      puts "Please choose a number from 1-50."
-      puts ""
-      select_books
+      puts "Please enter a number from 1 - #{input}."
+      get_book(input)
     end
-  end
-
-  def select_book
-    print "Enter a number for more info: "
-    book_index = gets.strip.to_i
-    book = MostReadBooks::Book.find(book_index)
-    puts ""
-    display_book(book)
   end
   
   def display_book(book)
@@ -117,29 +55,25 @@ class MostReadBooks::CLI
     puts "---About Author"
     book.format_paragraphs(book.about_author)
     puts ""
-    menu
   end
   
-  def select_another
-    print "Would you like to see more books(y/n)? "
+  def see_more_books_or_exit
+    print "Would you like to see more books? Enter 'y' or 'n': "
     input = gets.strip
     if input == "y"
-      puts ""
-      select_books
+      menu
     elsif input == "n"
-      exit_application
+      close_application
     else
+      puts "Please enter 'y' or 'n'."
       puts ""
-      puts "Please enter y or n."
-      puts ""
-      select_another
+      see_more_books_or_exit
     end
   end
   
   def close_application
     puts ""
-    puts "Closing Most Read Books."
-    puts "Have a nice day."
+    puts "Thank you for using Most Read Books. Have a nice day."
     exit
   end
 end
