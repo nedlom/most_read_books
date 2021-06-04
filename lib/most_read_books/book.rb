@@ -84,6 +84,12 @@ class MostReadBooks::Book
     # end.to_a.map do |b|
     #   b[1].map {|b| b.text}.join if b[0]
     # end.compact
+    
+    # element.children.chunk do |a|
+    #   a.name != "br" && a.text != " "
+    # end.to_a.map do |b|
+    #   b[1].map{|c| c.text}.join if b[0
+    # end.compact
   end
   
   def format_paragraphs(paragraphs)
