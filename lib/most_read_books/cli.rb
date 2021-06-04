@@ -1,31 +1,48 @@
 class MostReadBooks::CLI
   def welcome
+    # MostReadBooks::Scraper.new.scrape_books
     puts ""
     puts "#{"-" * 30}Most Read Books#{"-" * 30}"
-    puts "Welcome to Most Read Books. This application showcases the 50 most read"
+    puts "Welcome to Most Read Books. This application showcases the #{MostReadBooks::Book.all.length} most read"
     puts "books in the United States this week (according to Goodreads)." 
     puts ""
-    MostReadBooks::Scraper.new.scrape_books
     menu
   end
   
+  # list_books
+  # display_book_details
+  
+  
   def menu
-    print "Type list to see books or exit to quit program: "
-    input = gets.strip
-    if input == "list"
-      list_books
-      select_book
-      display_book
-    elsif input == "exit"
-      exit
+    print "How many books would you like to see? Enter a number from 1-#{MostReadBooks::Book.all.length}: "
+    input = gets.strip.to_i
+    puts ""
+    
+    if (1..MostReadBooks::Book.all.length).include?(input)
+      MostReadBooks::Books.print_books(input)
+      display_book_details(input)
     else
-      puts ""
-      puts "Please enter list or exit."
+      puts "Please enter a number from 1-#{MostReadBooks::Book.all.length}."
       puts ""
       menu
     end
-    menu
+    
+    # print "Would you like to see more books? Enter 'y' or 'n':"
+    # input = gets.strip
+    # if input == "y"
+    #   menu
+    # elsif input == "n"
+    #   close_application
+    # else
+    #   function
+    # end
   end
+  
+  def display_book_details(input)
+    print "Select a book number for details(1-#{input}): "
+    book_number = gets.strip.to_i
+  end
+  
   
   def list_books
     puts ""
@@ -119,8 +136,9 @@ class MostReadBooks::CLI
     end
   end
   
-  def exit_application
+  def close_application
     puts ""
+    puts "Closing Most Read Books."
     puts "Have a nice day."
     exit
   end
