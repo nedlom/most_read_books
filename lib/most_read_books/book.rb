@@ -43,6 +43,11 @@ class MostReadBooks::Book
     @publisher = doc.css("#details .row")[1].text.strip.split("by ").last
   end
   
+  def summary
+    #@summary = make_paragraphs(doc.css("#description span")[1])
+    @summary = testing(doc.css("#description span")[1])
+  end
+  
   def about_author
     if doc.css(".bookAuthorProfile span").empty?
       @about_author = "There is no information for this author"
@@ -55,25 +60,23 @@ class MostReadBooks::Book
     end
   end
 
-  def summary
-    @summary = make_paragraphs(doc.css("#description span")[1])
-  end
   
-  def make_paragraphs(element)
+  def testing(element)
     text_array = element.children.map do |node|
       node.text
     end
     
-    # text_groups returns array of form [[true or false, [strings]],...]
-    # true or false/strings array determined by block's return value
-    text_groups = text_array.chunk do |line|
-      line != "" && line != " "
-    end.to_a
+    array = []
     
-    # group[1] is an array of strings
-    text_groups.map do |group|
-      group[1].join if group[0]
+    x = text_array.map.with_index do |a|
+      if a != "" && a != " "
+        array << a
+      else
+        array = []
+        nil
+      end
     end.compact
+    binding.pry
     
     # element.children.chunk do |a|
     #   a.text != "" && a.text != " "
@@ -86,6 +89,27 @@ class MostReadBooks::Book
     # end.to_a.map do |b|
     #   b[1].map{|c| c.text}.join if b[0
     # end.compact
+    
+    # text_array.group_by do |a|
+    #     a != "" && a != " "
+    # end
+  end
+
+  def make_paragraphs(element)
+    text_array = element.children.map do |node|
+      node.text
+    end
+    
+    # text_groups returns array of form [[true or false, [strings]],...]
+    # true or false/strings array determined by block's return value
+    text_groups = text_array.chunk do |line|
+      line != "" && line != " "
+    end.to_a
+    
+  
+    text_groups.map do |group|
+      group[1].join if group[0]
+    end.compact
   end
   
   def format_paragraphs(paragraphs)

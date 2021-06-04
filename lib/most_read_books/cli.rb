@@ -6,7 +6,8 @@ class MostReadBooks::CLI
     puts "Welcome to Most Read Books. This application showcases the #{MostReadBooks::Book.all.length} most read"
     puts "books in the United States this week (according to Goodreads)." 
     puts ""
-    menu
+    # menu
+    get_book #delete this
   end
 
   def menu
@@ -30,10 +31,11 @@ class MostReadBooks::CLI
   def get_book
     puts ""
     print "Select a book number for details (1-#{@input}): "
-    book_number = gets.strip.to_i
-    if (1..@input).include?(book_number)
-      book = MostReadBooks::Book.find(book_number)
-      display_book(book)
+    @book_number = gets.strip.to_i
+    if (1..@input).include?(@book_number)
+      book = MostReadBooks::Book.find(@book_number)
+      book.summary #delete this
+      #display_book(book)
     else
       puts "Please enter a number from 1 - #{@input}."
       get_book
@@ -42,12 +44,14 @@ class MostReadBooks::CLI
   
   def display_book(book)
     puts ""
-    puts "---Number #{@input} Most Read Book This Week"
+    puts "---Number #{@book_number} Most Read Book This Week"
     puts "Title: #{book.title}"
     puts "Author: #{book.author}"
-    puts "Page Count: #{book.number_of_pages}"
-    puts "Format: #{book.book_format}"
     puts "Publisher: #{book.publisher}"
+    puts "Format: #{book.book_format}"
+    puts "Page Count: #{book.number_of_pages}"
+    puts ""
+    puts "#{book.title} has been read by #{book.readers} people this week."
     puts ""
     puts "---Summary"
     book.format_paragraphs(book.summary)
