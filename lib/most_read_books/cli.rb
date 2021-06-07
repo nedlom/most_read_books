@@ -10,6 +10,7 @@ class MostReadBooks::CLI
   end
 
   def list_books
+    binding.pry
     print "How many books would you like to see? Enter a number from 1-#{MostReadBooks::Book.all.length}: "
     @input = gets.strip.to_i
     puts ""

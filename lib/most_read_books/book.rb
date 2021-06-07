@@ -36,28 +36,25 @@ class MostReadBooks::Book
   end
   
   def page_count
-    #@page_count = doc.css("#details .row")[0].text.split(" ")[1]
     @page_count ||= doc.css("#details .row")[0].text.split(/, | pages/).last
   end
   
   def publisher
-    # @publisher = doc.css("#details .row")[1].text.strip.split("by ").last
     @publisher ||= doc.css("#details .row")[1].text.split(/by |\n/)[4]
   end
   
   def summary
     @summary ||= make_paragraphs(doc.css("#description span")[1])
-    #@summary = testing(doc.css("#description span")[1])
   end
   
   def about_author
-    if doc.css(".bookAuthorProfile span").empty?
-      @about_author ||= "There is no information for this author"
+    @about_author ||= if doc.css(".bookAuthorProfile span").empty?
+      @about_author = "There is no information for this author"
     else
       if doc.css(".bookAuthorProfile span").length == 2
-        @about_author ||= make_paragraphs(doc.css(".bookAuthorProfile span")[1])
+        @about_author = make_paragraphs(doc.css(".bookAuthorProfile span")[1])
       else
-        @about_author ||= make_paragraphs(doc.css(".bookAuthorProfile span")[0])
+        @about_author = make_paragraphs(doc.css(".bookAuthorProfile span")[0])
       end
     end
   end
