@@ -1,6 +1,6 @@
 class MostReadBooks::Book
   
-  attr_accessor :title, :author, :url, :ratings, :readers, :format, :page_count, :publisher, :summary, :about_author
+  attr_accessor :title, :author, :url, :ratings, :readers, :doc, :format, :page_count, :publisher, :summary, :about_author
   
   @@all = []
   
@@ -28,7 +28,7 @@ class MostReadBooks::Book
   end
   
   def doc
-    Nokogiri::HTML(open(self.url).read)
+    @doc = Nokogiri::HTML(open(self.url).read)
   end
   
   def format
