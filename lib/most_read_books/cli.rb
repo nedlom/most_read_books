@@ -6,8 +6,8 @@ class MostReadBooks::CLI
     puts "Welcome to Most Read Books. This application showcases the #{MostReadBooks::Book.all.length} most read"
     puts "books in the United States this week (according to Goodreads)." 
     puts ""
-    # menu
-    get_book #delete this
+    menu
+    #get_book #delete this
   end
 
   def menu
@@ -34,8 +34,8 @@ class MostReadBooks::CLI
     @book_number = gets.strip.to_i
     if (1..@input).include?(@book_number)
       book = MostReadBooks::Book.find(@book_number)
-      book.summary #delete this
-      #display_book(book)
+      # book.summary #delete this
+      display_book(book)
     else
       puts "Please enter a number from 1 - #{@input}."
       get_book
@@ -44,7 +44,7 @@ class MostReadBooks::CLI
   
   def display_book(book)
     puts ""
-    puts "---Number #{@book_number} Most Read Book This Week"
+    puts "---Number #{MostReadBooks::Book.all.index(book) + 1} Most Read Book This Week"
     puts "Title: #{book.title}"
     puts "Author: #{book.author}"
     puts "Publisher: #{book.publisher}"
