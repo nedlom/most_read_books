@@ -6,8 +6,12 @@ class MostReadBooks::CLI
     puts "Welcome to Most Read Books. This application showcases the #{MostReadBooks::Book.all.length} most read"
     puts "books in the United States this week (according to Goodreads)." 
     puts ""
-    menu
+    #menu
     #get_book #delete this
+    while true
+    input = gets.strip.to_i
+    puts MostReadBooks::Book.all[input].format
+    end
   end
 
   def menu
@@ -48,7 +52,7 @@ class MostReadBooks::CLI
     puts "Title: #{book.title}"
     puts "Author: #{book.author}"
     puts "Publisher: #{book.publisher}"
-    puts "Format: #{book.book_format}"
+    puts "Format: #{book.format}"
     puts "Page Count: #{book.number_of_pages}"
     puts ""
     puts "#{book.title} has been read by #{book.readers} people this week."

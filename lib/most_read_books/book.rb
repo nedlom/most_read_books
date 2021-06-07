@@ -1,6 +1,6 @@
 class MostReadBooks::Book
   
-  attr_accessor :title, :author, :url, :ratings, :readers, :book_format, :number_of_pages, :publisher, :summary, :about_author
+  attr_accessor :title, :author, :url, :ratings, :readers, :format, :number_of_pages, :publisher, :summary, :about_author
   
   @@all = []
   
@@ -31,8 +31,8 @@ class MostReadBooks::Book
     Nokogiri::HTML(open(self.url).read)
   end
   
-  def book_format
-    @format = doc.css("#details .row")[0].text.split(",")[0]
+  def format
+    @format = doc.css("#details .row")[0].text.split(/, | pages/).first
   end
   
   def number_of_pages
