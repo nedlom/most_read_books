@@ -6,14 +6,13 @@ class MostReadBooks::CLI
     puts "Welcome to Most Read Books. This application showcases the #{MostReadBooks::Book.all.length} most read"
     puts "books in the United States this week (according to Goodreads)." 
     puts ""
-    menu
+    list_books
   end
 
-  def menu
+  def list_books
     print "How many books would you like to see? Enter a number from 1-#{MostReadBooks::Book.all.length}: "
     @input = gets.strip.to_i
     puts ""
-    
     if (1..MostReadBooks::Book.all.length).include?(@input)
       puts "---Top #{@input} Most Read Books This Week"
       MostReadBooks::Book.print_books(@input)
@@ -24,8 +23,6 @@ class MostReadBooks::CLI
       puts ""
       menu
     end
-    
-    see_more_books_or_exit
   end
   
   def get_book
@@ -57,6 +54,7 @@ class MostReadBooks::CLI
     puts "---About Author"
     book.format_paragraphs(book.about_author)
     puts ""
+    see_more_books_or_exit
   end
   
   def see_more_books_or_exit
@@ -64,7 +62,7 @@ class MostReadBooks::CLI
     input = gets.strip
     if input == "y"
       puts ""
-      menu
+      list_books
     elsif input == "n"
       close_application
     else
