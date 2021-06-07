@@ -1,6 +1,6 @@
 class MostReadBooks::Book
   
-  attr_accessor :title, :author, :url, :ratings, :readers, :format, :number_of_pages, :publisher, :summary, :about_author
+  attr_accessor :title, :author, :url, :ratings, :readers, :format, :page_count, :publisher, :summary, :about_author
   
   @@all = []
   
@@ -35,7 +35,7 @@ class MostReadBooks::Book
     @format = doc.css("#details .row")[0].text.split(/, | pages/).first
   end
   
-  def number_of_pages
+  def page_count
     #@page_count = doc.css("#details .row")[0].text.split(" ")[1]
     @page_count = doc.css("#details .row")[0].text.split(/, | pages/).last
   end
@@ -62,7 +62,6 @@ class MostReadBooks::Book
     end
   end
 
-  
   # def testing(element)
   #   text_array = element.children.map do |node|
   #     node.text

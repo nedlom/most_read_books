@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 require_relative "../lib/most_read_books"
 
-MostReadBooks::CLI.new.welcome
+MostReadBooks::CLI.new.start
