@@ -22,7 +22,7 @@ class MostReadBooks::CLI
     else
       puts "Please enter a number from 1-#{MostReadBooks::Book.all.length}."
       puts ""
-      menu
+      list_books
     end
   end
   
