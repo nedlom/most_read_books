@@ -1,16 +1,16 @@
 class MostReadBooks::CLI
   
+  # def start
+  #   MostReadBooks::Scraper.new.scrape_books
+  #   while true
+  #     input = gets.strip.to_i
+  #     MostReadBooks::Book.all[input].summary
+  #   end
+  # end
+  
+  
+  
   def start
-    MostReadBooks::Scraper.new.scrape_books
-    while true
-      input = gets.strip.to_i
-      MostReadBooks::Book.all[input].summary
-    end
-  end
-  
-  
-  
-  def xstart
     MostReadBooks::Scraper.new.scrape_books
     puts ""
     puts "#{"-" * 30}Most Read Books#{"-" * 30}"
@@ -21,7 +21,6 @@ class MostReadBooks::CLI
   end
 
   def list_books
-    binding.pry
     print "How many books would you like to see? Enter a number from 1-#{MostReadBooks::Book.all.length}: "
     @input = gets.strip.to_i
     puts ""
@@ -61,10 +60,10 @@ class MostReadBooks::CLI
     puts "#{book.title} has been read by #{book.readers} people this week."
     puts ""
     puts "---Summary"
-    book.format_paragraphs(book.summary)
+    puts book.summary
     puts ""
     puts "---About Author"
-    book.format_paragraphs(book.about_author)
+    puts book.about_author
     puts ""
     see_more_books_or_exit
   end

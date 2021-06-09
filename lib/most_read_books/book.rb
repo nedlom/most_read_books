@@ -44,7 +44,7 @@ class MostReadBooks::Book
   end
   
   def summary
-    @summary ||= make_paragraphs(doc.css("#description span")[1])
+    @summary ||= format_text(doc.css("#description span")[1])
   end
   
   def about_author
@@ -52,9 +52,9 @@ class MostReadBooks::Book
       @about_author = "There is no information for this author"
     else
       if doc.css(".bookAuthorProfile span").length == 2
-        @about_author = make_paragraphs(doc.css(".bookAuthorProfile span")[1])
+        @about_author = format_text(doc.css(".bookAuthorProfile span")[1])
       else
-        @about_author = make_paragraphs(doc.css(".bookAuthorProfile span")[0])
+        @about_author = format_text(doc.css(".bookAuthorProfile span")[0])
       end
     end
   end
@@ -93,10 +93,21 @@ class MostReadBooks::Book
     # end
   # end
 
-  def make_paragraphs(element)
+  def format_text(element)
     text_array = element.children.map do |node|
-      node.text
+      # binding.pry
+      if node.children.empty? 
+        # originally just this 
+        node.text
+      else
+        node.children.map do |a|
+          a.text
+        end
+      end
     end
+    binding.pry
+    
+     #17 is an issue: 1, 8, 17, 21, 32, 50
     
     # text_groups returns array of form [[true or false, [strings]],...]
     # true or false/strings array determined by block's return value
@@ -104,9 +115,14 @@ class MostReadBooks::Book
       line != "" && line != " "
     end.to_a
     
+    binding.pry
+    
     paragraphs = text_groups.map do |group|
       group[1].join if group[0]
     end.compact
+    
+    paragraphs.delete_at(0) if paragraphs[0].downcase.include?("edition")
+    # binding.pry
 
     # previously returned value of paragraphs and passed to
     # format_paragraphs in CLI class.
