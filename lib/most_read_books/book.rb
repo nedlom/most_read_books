@@ -104,20 +104,29 @@ class MostReadBooks::Book
       line != "" && line != " "
     end.to_a
     
-  
-    text_groups.map do |group|
+    paragraphs = text_groups.map do |group|
       group[1].join if group[0]
     end.compact
+
+    # previously returned value of paragraphs and passed to
+    # format_paragraphs in CLI class.
+    paragraph_lines = paragraphs.map do |x|
+      x.scan(/(.{1,75})(?:\s|$)/m)
+    end
+
+    paragraph_lines.map do |t|
+      t.join("\n")
+    end.join("\n\n")
   end
   
-  def format_paragraphs(paragraphs)
-    if paragraphs.class == Array
-      paragraphs.each do |paragraph|
-        puts paragraph.scan(/(.{1,75})(?:\s|$)/m)
-        puts ""
-      end 
-    else
-      puts paragraphs
-    end
-  end
+  # def format_paragraphs(paragraphs)
+  #   if paragraphs.class == Array
+  #     paragraphs.each do |paragraph|
+  #       puts paragraph.scan(/(.{1,75})(?:\s|$)/m)
+  #       puts ""
+  #     end 
+  #   else
+  #     puts paragraphs
+  #   end
+  # end
 end

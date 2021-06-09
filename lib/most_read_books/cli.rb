@@ -1,5 +1,16 @@
 class MostReadBooks::CLI
+  
   def start
+    MostReadBooks::Scraper.new.scrape_books
+    while true
+      input = gets.strip.to_i
+      MostReadBooks::Book.all[input].summary
+    end
+  end
+  
+  
+  
+  def xstart
     MostReadBooks::Scraper.new.scrape_books
     puts ""
     puts "#{"-" * 30}Most Read Books#{"-" * 30}"
