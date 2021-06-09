@@ -61,7 +61,7 @@ class MostReadBooks::Book
 
   def format_text(element)
     # issues at: 1, 8, 17, 21, 32, 50
-    # using if/else to deal with non-text nodes that have their own formatting
+    # else condtions deals with non-text nodes that have their own text/formatting
     text_array = element.children.map do |node|
       if node.children.empty? 
         node.text
@@ -83,7 +83,6 @@ class MostReadBooks::Book
     # removes a reference to an image seen on webpage.
     paragraphs.delete_at(0) if paragraphs[0].downcase.include?("edition")
 
-    # previously returned value of paragraphs and passed to format_paragraphs in CLI class.
     paragraph_lines = paragraphs.map do |paragraph|
       paragraph.scan(/(.{1,75})(?:\s|$)/m)
     end

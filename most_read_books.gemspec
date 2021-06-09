@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = "Most read books this week."
   spec.description   = "Provides details on the most read books in US this week."
-  spec.homepage      = "http://www.bob.com"
+  spec.homepage      = "https://github.com/nedlom/most_read_books"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
