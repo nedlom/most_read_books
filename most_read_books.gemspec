@@ -6,11 +6,11 @@ require "most_read_books/version"
 Gem::Specification.new do |spec|
   spec.name          = "most_read_books"
   spec.version       = MostReadBooks::VERSION
-  spec.authors       = ["'imperative-scientist-4600'"]
+  spec.authors       = ["Nick Lombardi"]
   spec.email         = ["'nelom3@gmail.com'"]
 
-  spec.summary       = %q{summary}
-  spec.description   = %q{desc.}
+  spec.summary       = "Most read books this week."
+  spec.description   = "Provides details on the most read books in US this week."
   spec.homepage      = "http://www.bob.com"
   spec.license       = "MIT"
 

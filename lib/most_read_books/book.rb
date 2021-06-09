@@ -44,7 +44,7 @@ class MostReadBooks::Book
   end
   
   def summary
-    @summary ||= format_text(doc.css("#description span")[1])
+    @summary ||= format_text(doc.css("#description span").last) #[1]
   end
   
   def about_author
@@ -52,52 +52,16 @@ class MostReadBooks::Book
       @about_author = "There is no information for this author"
     else
       if doc.css(".bookAuthorProfile span").length == 2
-        @about_author = format_text(doc.css(".bookAuthorProfile span")[1])
+        @about_author = format_text(doc.css(".bookAuthorProfile span").last) #[1]
       else
-        @about_author = format_text(doc.css(".bookAuthorProfile span")[0])
+        @about_author = format_text(doc.css(".bookAuthorProfile span").first) #[0]
       end
     end
   end
 
-  # def testing(element)
-  #   text_array = element.children.map do |node|
-  #     node.text
-  #   end
-    
-  #   array = []
-    
-  #   x = text_array.map.with_index do |a|
-  #     if a != "" && a != " "
-  #       array << a
-  #     else
-  #       array = []
-  #       nil
-  #     end
-  #   end.compact
-  #   binding.pry
-    
-    # element.children.chunk do |a|
-    #   a.text != "" && a.text != " "
-    # end.to_a.map do |b|
-    #   b[1].map {|b| b.text}.join if b[0]
-    # end.compact
-    
-    # element.children.chunk do |a|
-    #   a.name != "br" && a.text != " "
-    # end.to_a.map do |b|
-    #   b[1].map{|c| c.text}.join if b[0
-    # end.compact
-    
-    # text_array.group_by do |a|
-    #     a != "" && a != " "
-    # end
-  # end
-
   def format_text(element)
-    # used to be just node.text in block
-    # added if statement to deal with non-text nodes
-    # with children that had formatting
-    # flatten add to 
+    # issues at: 1, 8, 17, 21, 32, 50
+    # using if/else to deal with non-text nodes that have their own formatting
     text_array = element.children.map do |node|
       if node.children.empty? 
         node.text
@@ -107,33 +71,25 @@ class MostReadBooks::Book
         end
       end
     end.flatten
-    # binding.pry
     
-     #17 is an issue: 1, 8, 17, 21, 32, 50
-    
-    # text_groups returns array of form [[true or false, [strings]],...]
-    # true or false/strings array determined by block's return value
     text_groups = text_array.chunk do |line|
       line != "" && line != " "
     end.to_a
-    
-    # binding.pry
     
     paragraphs = text_groups.map do |group|
       group[1].join if group[0]
     end.compact
     
+    # removes a reference to an image seen on webpage.
     paragraphs.delete_at(0) if paragraphs[0].downcase.include?("edition")
-    # binding.pry
 
-    # previously returned value of paragraphs and passed to
-    # format_paragraphs in CLI class.
-    paragraph_lines = paragraphs.map do |x|
-      x.scan(/(.{1,75})(?:\s|$)/m)
+    # previously returned value of paragraphs and passed to format_paragraphs in CLI class.
+    paragraph_lines = paragraphs.map do |paragraph|
+      paragraph.scan(/(.{1,75})(?:\s|$)/m)
     end
 
-    paragraph_lines.map do |t|
-      t.join("\n")
+    paragraph_lines.map do |line|
+      line.join("\n") 
     end.join("\n\n")
   end
   
