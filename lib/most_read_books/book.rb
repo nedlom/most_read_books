@@ -94,18 +94,20 @@ class MostReadBooks::Book
   # end
 
   def format_text(element)
+    # used to be just node.text in block
+    # added if statement to deal with non-text nodes
+    # with children that had formatting
+    # flatten add to 
     text_array = element.children.map do |node|
-      # binding.pry
       if node.children.empty? 
-        # originally just this 
         node.text
       else
         node.children.map do |a|
           a.text
         end
       end
-    end
-    binding.pry
+    end.flatten
+    # binding.pry
     
      #17 is an issue: 1, 8, 17, 21, 32, 50
     
@@ -115,7 +117,7 @@ class MostReadBooks::Book
       line != "" && line != " "
     end.to_a
     
-    binding.pry
+    # binding.pry
     
     paragraphs = text_groups.map do |group|
       group[1].join if group[0]
