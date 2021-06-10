@@ -28,23 +28,19 @@ class MostReadBooks::Book
   end
   
   def doc
-    @doc ||= Nokogiri::HTML(open(self.url).read)
+    @doc ||= Nokogiri::HTML(open(url).read)
   end
   
   def format
-    
-    binding.pry
-    @format ||= doc.css("#details .row")[0].text.split(/, | pages/).first
-    y = doc.css("[itemprop='bookFormat']").text
+    @format ||= doc.css("[itemprop='bookFormat']").text
   end
   
   def page_count
-    @page_count ||= doc.css("#details .row")[0].text.split(/, | pages/).last
-    y = doc.css("[itemprop='numberOfPages']").text.split(" ").first
+    @page_count ||= doc.css("[itemprop='numberOfPages']").text.split(" ").first
   end
   
   def publisher
-    @publisher ||= doc.css("#details .row").last.text.split(/by |\n/)[4]
+    @publisher ||= doc.css("#details .row").text.split(/by |\n\n/)[1]
   end
   
   def summary
@@ -53,7 +49,7 @@ class MostReadBooks::Book
   
   def about_author
     @about_author ||= if doc.css(".bookAuthorProfile span").empty?
-      @about_author = "There is no information for this author"
+      @about_author = "There is no information for this author."
     else
       if doc.css(".bookAuthorProfile span").length == 2
         @about_author = format_text(doc.css(".bookAuthorProfile span").last)

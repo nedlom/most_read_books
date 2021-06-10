@@ -1,5 +1,5 @@
 class MostReadBooks::CLI
-
+  
   def start
     MostReadBooks::Scraper.new.scrape_books
     puts ""
