@@ -32,19 +32,23 @@ class MostReadBooks::Book
   end
   
   def format
+    
+    binding.pry
     @format ||= doc.css("#details .row")[0].text.split(/, | pages/).first
+    y = doc.css("[itemprop='bookFormat']").text
   end
   
   def page_count
     @page_count ||= doc.css("#details .row")[0].text.split(/, | pages/).last
+    y = doc.css("[itemprop='numberOfPages']").text.split(" ").first
   end
   
   def publisher
-    @publisher ||= doc.css("#details .row")[1].text.split(/by |\n/)[4]
+    @publisher ||= doc.css("#details .row").last.text.split(/by |\n/)[4]
   end
   
   def summary
-    @summary ||= format_text(doc.css("#description span").last) #[1]
+    @summary ||= format_text(doc.css("#description span").last)
   end
   
   def about_author
@@ -52,16 +56,14 @@ class MostReadBooks::Book
       @about_author = "There is no information for this author"
     else
       if doc.css(".bookAuthorProfile span").length == 2
-        @about_author = format_text(doc.css(".bookAuthorProfile span").last) #[1]
+        @about_author = format_text(doc.css(".bookAuthorProfile span").last)
       else
-        @about_author = format_text(doc.css(".bookAuthorProfile span").first) #[0]
+        @about_author = format_text(doc.css(".bookAuthorProfile span").first) 
       end
     end
   end
 
   def format_text(element)
-    # issues at: 1, 8, 17, 21, 32, 50
-    # else condtions deals with non-text nodes that have their own text/formatting
     text_array = element.children.map do |node|
       if node.children.empty? 
         node.text
@@ -92,14 +94,4 @@ class MostReadBooks::Book
     end.join("\n\n")
   end
   
-  # def format_paragraphs(paragraphs)
-  #   if paragraphs.class == Array
-  #     paragraphs.each do |paragraph|
-  #       puts paragraph.scan(/(.{1,75})(?:\s|$)/m)
-  #       puts ""
-  #     end 
-  #   else
-  #     puts paragraphs
-  #   end
-  # end
 end
