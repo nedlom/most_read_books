@@ -20,10 +20,10 @@ Or install it yourself as:
 
 ## Usage
 
-Clone down this repo:
-1. Run ```$ cd most_read_books```
-2. Run ```$ bundle```
-3. Run ```$ ./bin/most_read_books```
+Clone down this repo and run the following commands:
+1. ```$ cd most_read_books```
+2. ```$ bundle```
+3. ```$ ./bin/most_read_books```
 4. Follow on screen prompts
 
 ## Development
