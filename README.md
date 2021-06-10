@@ -1,6 +1,6 @@
 # MostReadBooks
 
-This is a CLI application that provides information on the 'Most Read Books This Week In The United States' according to GoodReads found at https://www.goodreads.com/book/most_read.
+This is a CLI application that provides information on the 'Most Read Books This Week In The United States' list from GoodReads found at https://www.goodreads.com/book/most_read.
 
 ## Installation
 
@@ -20,7 +20,11 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Clone down this repo:
+1. Run $ cd most_read_books
+2. Run $ bundle
+3. Run $ ./bin/most_read_books
+4. Follow on screen prompts
 
 ## Development
 
