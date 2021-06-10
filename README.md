@@ -21,9 +21,9 @@ Or install it yourself as:
 ## Usage
 
 Clone down this repo:
-1. Run $ cd most_read_books
-2. Run $ bundle
-3. Run $ ./bin/most_read_books
+1. Run ```$ cd most_read_books```
+2. Run ```$ bundle```
+3. Run ```$ ./bin/most_read_books```
 4. Follow on screen prompts
 
 ## Development
