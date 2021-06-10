@@ -69,15 +69,17 @@ class MostReadBooks::Book
         end
       end
     end.flatten
+    binding.pry
     
     text_groups = text_array.chunk do |line|
-      line != "" && line != " "
+      line != "" && line != " " && line != "\u00A0"
     end.to_a
+    binding.pry
     
     paragraphs = text_groups.map do |group|
       group[1].join if group[0]
     end.compact
-    
+    binding.pry
     # removes a reference to an image seen on webpage.
     paragraphs.delete_at(0) if paragraphs[0].downcase.include?("edition")
 

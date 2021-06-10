@@ -13,8 +13,8 @@ class MostReadBooks::CLI
   def list_books
     print "How many books would you like to see? Enter a number from 1-#{MostReadBooks::Book.all.length}: "
     @input = gets.strip.to_i
-    puts ""
     if (1..MostReadBooks::Book.all.length).include?(@input)
+      puts ""
       puts "---Top #{@input} Most Read Books This Week"
       MostReadBooks::Book.print_books(@input)
       puts ""
@@ -35,6 +35,7 @@ class MostReadBooks::CLI
       display_book(book)
     else
       puts "Please enter a number from 1 - #{@input}."
+      puts ""
       get_book
     end
   end
