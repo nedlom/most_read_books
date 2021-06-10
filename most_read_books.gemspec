@@ -20,8 +20,8 @@ Gem::Specification.new do |spec|
     spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
 
     spec.metadata["homepage_uri"] = spec.homepage
-    spec.metadata["source_code_uri"] = "http://www.bob.com"
-    spec.metadata["changelog_uri"] = "http://www.bob.com"
+    spec.metadata["source_code_uri"] = "https://github.com/nedlom/most_read_books.git"
+    spec.metadata["changelog_uri"] = "https://github.com/nedlom/most_read_books.git"
   else
     raise "RubyGems 2.0 or newer is required to protect against " \
       "public gem pushes."
