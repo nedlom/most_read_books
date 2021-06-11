@@ -1,6 +1,6 @@
 class MostReadBooks::Book
   
-  attr_accessor :title, :author, :url, :ratings, :readers, :doc, :format, :page_count, :publisher, :summary, :about_author
+  attr_accessor :title, :author, :url, :avg_rating, :total_ratings, :readers, :doc, :format, :page_count, :publisher, :summary, :about_author
   
   @@all = []
   
@@ -18,11 +18,12 @@ class MostReadBooks::Book
     end 
   end
 
-  def initialize(title=nil, author=nil, url=nil, ratings=nil, readers=nil)
+  def initialize(title=nil, author=nil, url=nil, avg_rating=nil, total_ratings=nil, readers=nil)
     @title = title
     @author = author
     @url = url
-    @ratings = ratings
+    @avg_rating = avg_rating
+    @total_ratings = total_ratings
     @readers = readers
     self.class.all << self
   end

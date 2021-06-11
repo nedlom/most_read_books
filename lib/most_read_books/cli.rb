@@ -44,6 +44,8 @@ class MostReadBooks::CLI
     puts "---Number #{MostReadBooks::Book.all.index(book) + 1} Most Read Book This Week"
     puts "Title: #{book.title}"
     puts "Author: #{book.author}"
+    puts "Average Rating: #{book.avg_rating}"
+    puts "Total Ratings: #{book.total_ratings}"
     puts "Publisher: #{book.publisher}"
     puts "Format: #{book.format}"
     puts "Page Count: #{book.page_count}"
