@@ -59,8 +59,8 @@ class MostReadBooks::Book
     end
   end
 
-  def format_text(element)
-    text_array = element.children.map do |node|
+  def format_text(noko_element)
+    text_array = noko_element.children.map do |node|
       if node.children.empty? 
         node.text
       else
