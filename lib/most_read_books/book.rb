@@ -65,14 +65,15 @@ class MostReadBooks::Book
       end
     end
   end
-
+  
+  # returns a formatted string that will keep structure of text as seen on website
   def format_text(noko_element)
     text_array = noko_element.children.map do |node|
       if node.children.empty? 
         node.text
       else
-        node.children.map do |a|
-          a.text
+        node.children.map do |nested_node|
+          nested_node.text
         end
       end
     end.flatten
@@ -87,11 +88,11 @@ class MostReadBooks::Book
     
     # removes a reference to an image seen on webpage.
     paragraphs.delete_at(0) if paragraphs[0].downcase.include?("edition")
-
+    
     paragraph_lines = paragraphs.map do |paragraph|
       paragraph.scan(/(.{1,75})(?:\s|$)/m)
     end
-
+    
     paragraph_lines.map do |line|
       line.join("\n") 
     end.join("\n\n")
