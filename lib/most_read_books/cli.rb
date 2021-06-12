@@ -1,5 +1,5 @@
 class MostReadBooks::CLI
-  
+ 
   def start
     MostReadBooks::Scraper.new.scrape_books
     puts ""
@@ -81,4 +81,5 @@ class MostReadBooks::CLI
     puts "Thank you for using Most Read Books. Have a nice day."
     exit
   end
+  
 end
