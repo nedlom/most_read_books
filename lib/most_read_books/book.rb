@@ -28,8 +28,13 @@ class MostReadBooks::Book
     self.class.all << self
   end
   
+  # don't use set ratings on initialize
+  # only need title, author, url, and readers
+  # @doc.css("[itemprop='ratingValue']").text.strip
+  
   def doc
     @doc ||= Nokogiri::HTML(open(url).read)
+    binding.pry
   end
   
   def format
