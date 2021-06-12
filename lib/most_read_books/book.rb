@@ -18,12 +18,13 @@ class MostReadBooks::Book
     end 
   end
 
-  def initialize(title=nil, author=nil, url=nil, avg_rating=nil, total_ratings=nil, readers=nil)
+  # avg_rating=nil, total_ratings=nil,
+  def initialize(title=nil, author=nil, url=nil,  readers=nil)
     @title = title
     @author = author
     @url = url
-    @avg_rating = avg_rating
-    @total_ratings = total_ratings
+    # @avg_rating = avg_rating
+    # @total_ratings = total_ratings
     @readers = readers
     self.class.all << self
   end
@@ -34,7 +35,16 @@ class MostReadBooks::Book
   
   def doc
     @doc ||= Nokogiri::HTML(open(url).read)
+    
+  end
+  
+  def avg_rating
+    @avg_rating ||= @doc.css("[itemprop='ratingValue']").text.strip
+  end
+  
+  def total_ratings
     binding.pry
+    @total_ratings ||= @doc.css("[href='#other_reviews']").text.strip.split("\n").first
   end
   
   def format
