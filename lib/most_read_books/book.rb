@@ -18,7 +18,7 @@ class MostReadBooks::Book
     end 
   end
 
-  def initialize(title=nil, author=nil, url=nil,  readers=nil)
+  def initialize(title=nil, author=nil, url=nil, readers=nil)
     @title = title
     @author = author
     @url = url
@@ -66,7 +66,7 @@ class MostReadBooks::Book
     end
   end
   
-  # returns a formatted string that will keep structure of text as seen on website
+  # returns string formatted to keep structure of text as seen on website
   def format_text(noko_element)
     text_array = noko_element.children.map do |node|
       if node.children.empty? 
@@ -81,18 +81,18 @@ class MostReadBooks::Book
     text_groups = text_array.chunk do |line|
       line != "" && line != " " && line != "\u00A0"
     end.to_a
-    
+  
     paragraphs = text_groups.map do |group|
       group[1].join if group[0]
     end.compact
     
     # removes a reference to an image seen on webpage.
     paragraphs.delete_at(0) if paragraphs[0].downcase.include?("edition")
-    
+
     paragraph_lines = paragraphs.map do |paragraph|
       paragraph.scan(/(.{1,75})(?:\s|$)/m)
     end
-    
+  
     paragraph_lines.map do |line|
       line.join("\n") 
     end.join("\n\n")
